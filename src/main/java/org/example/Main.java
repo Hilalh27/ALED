@@ -1,18 +1,26 @@
 package org.example;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
 
-        for (int i = 1; i <= 5; i++) {
-            //test
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+        Demandeur demandeur1 = new Demandeur("Hamdan", "Hilal", "rue Marie-Louise", "hilalh27@gmail.com");
+
+        Benevole benevole1 = new Benevole("Caillet", "Noé", "avenue Lamartine","caillet.noe@laposte.net");
+
+        Valideur valideur1 = new Valideur("Loubejac-Combalbert", "Jean-Philippe", "rue de vazerac", "jploubej@vazerac.earth");
+        valideur1.ajouterDemandeur(demandeur1);
+
+        Mission mission1 = new Mission("transport objet", "Je veux récupérer mon shampooing chez Carrefour svp", 1800, new java.util.Date());
+        demandeur1.ajouterMission(mission1);
+        benevole1.accepterMission(mission1);
+        benevole1.realiserMission(mission1);
+        benevole1.ajouterAvis(new Avis(4,"pas assez rapide"));
+
+        Mission mission2 = new Mission("transport objet", "Je veux récupérer de la beuh", 3600, new java.util.Date());
+        demandeur1.ajouterMission(mission2);
+        valideur1.invaliderMission(mission2);
+        benevole1.accepterMission(mission2);
+        benevole1.realiserMission(mission2);
+        benevole1.ajouterAvis(new Avis(3,"pas assez rapide"));
     }
 }
