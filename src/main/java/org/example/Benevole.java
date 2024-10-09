@@ -24,7 +24,7 @@ public class Benevole extends Utilisateur {
         for (int i=0; i<this.avis.size(); i++){
             moy += this.avis.get(i).getNote();
         }
-        this.moyenne = moy/this.avis.size();
+        this.moyenne = (int) (moy / (double) this.avis.size());
     }
 
     public int getMoyenne() {

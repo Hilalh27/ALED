@@ -27,4 +27,10 @@ public class Mission {
     public String getStatut() {
         return statut;
     }
+
+    @Override
+    public String toString() {
+        return "Mission: " + description + ", Statut: " + statut + ", Date: " + date.toString();
+    }
+
 }
