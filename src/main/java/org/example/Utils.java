@@ -79,4 +79,24 @@ public class Utils {
         return true;
     }
 
+    public static boolean supprimerUtilisateur(String email, String motDePasse, UtilisateurDAO utilisateurDAO) throws SQLException {
+        int utilisateurValide = utilisateurDAO.verifierIdentifiants(email, motDePasse);
+
+        if (utilisateurValide != -1) {
+            int idUtilisateur = utilisateurDAO.trouverUtilisateurParEmail(email);
+            boolean utilisateurSupprime = utilisateurDAO.supprimerUtilisateur(idUtilisateur);
+            if (utilisateurSupprime) {
+                System.out.println("Utilisateur supprimé avec succès.");
+                return true;
+            } else {
+                System.out.println("Échec de la suppression de l'utilisateur.");
+                return false;
+            }
+        } else {
+            System.out.println("Identifiants incorrects. Impossible de supprimer l'utilisateur.");
+            return false;
+        }
+    }
+
+
 }
