@@ -10,8 +10,8 @@ public class Benevole extends Utilisateur {
 
 
     //CONSTRUCTEUR
-    public Benevole(String nom, String prenom, String adresse, String email) {
-        super(nom, prenom, adresse, email);
+    public Benevole(String nom, String prenom, String adresse, String email, String password) {
+        super(nom, prenom, adresse, email, password);
         this.avis = new ArrayList<Avis>();
         this.moyenne = 0;
         this.missions = new ArrayList<Mission>();

@@ -9,8 +9,8 @@ public class Demandeur extends Utilisateur{
 
 
     //CONSTRUCTEUR
-    public Demandeur(String nom, String prenom, String adresse, String email) {
-        super(nom, prenom, adresse, email);
+    public Demandeur(String nom, String prenom, String adresse, String email, String password) {
+        super(nom, prenom, adresse, email, password);
         this.valideur = null;
         this.missions = new ArrayList<Mission>();
     }
