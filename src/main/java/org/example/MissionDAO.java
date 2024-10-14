@@ -12,4 +12,10 @@ public class MissionDAO {
         this.connection = getConnection(); // Utilise la classe DBConnection pour obtenir une connexion
     }
 
+    //ajouter mission
+    //supprimer mission
+    //modifier contenu mission
+    //modifier statut mission
+    //
+
 }

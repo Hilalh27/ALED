@@ -1,5 +1,7 @@
 package org.example;
 
+import java.sql.SQLException;
+
 abstract public class Utilisateur {
 
     //ATTRIBUTS
