@@ -1,6 +1,6 @@
 package org.example;
 import java.sql.*;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import static org.example.DBConnection.getConnection;
 
 //DAO signifie Data Access Object

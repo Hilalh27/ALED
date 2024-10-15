@@ -1,6 +1,6 @@
 package org.example;
 
-import java.sql.SQLException;
+//import java.sql.SQLException;
 
 abstract public class Utilisateur {
 

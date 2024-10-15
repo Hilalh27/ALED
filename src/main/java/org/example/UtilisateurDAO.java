@@ -5,7 +5,7 @@ import static org.example.DBConnection.getConnection;
 
 //DAO signifie Data Access Object
 public class UtilisateurDAO {
-    private Connection connection;
+    private static Connection connection;
 
     //CONSTRUCTEUR
     public UtilisateurDAO() throws SQLException {
@@ -69,7 +69,7 @@ public class UtilisateurDAO {
         return false;
     }
 
-    public int verifierIdentifiants(String email, String password) throws SQLException {
+    public static int verifierIdentifiants(String email, String password) throws SQLException {
         String sql = "SELECT type_utilisateur FROM utilisateurs WHERE email = ? AND mot_de_passe = ?";
 
         PreparedStatement statement = connection.prepareStatement(sql);

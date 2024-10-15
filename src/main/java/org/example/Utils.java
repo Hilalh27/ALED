@@ -98,5 +98,11 @@ public class Utils {
         }
     }
 
+    public static int connexion(String email, String password) throws SQLException {
+        return UtilisateurDAO.verifierIdentifiants(email, password);
+    }
+
+    // Ecrire les fonctions se rattachant à MissionDAO
+
 
 }

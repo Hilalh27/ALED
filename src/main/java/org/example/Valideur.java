@@ -1,5 +1,5 @@
 package org.example;
-import java.sql.SQLException;
+//import java.sql.SQLException;
 import java.util.*;
 
 public class Valideur extends Utilisateur {
@@ -11,13 +11,13 @@ public class Valideur extends Utilisateur {
     public Valideur(String nom, String prenom, String adresse, String email, String password) {
         super(nom, prenom, adresse, email, password);
         this.demandeurs = new ArrayList<Demandeur>();
-        try {
+        /*try {
             UtilisateurDAO utilDAO = new UtilisateurDAO();
             utilDAO.ajouterUtilisateur(this, "valideur");
         }
         catch (SQLException e) {
             System.out.println("ERREUR : impossible de créer un utilisateur dans la BDD");
-        }
+        }*/
     }
     /*
     public Valideur(String nom, String prenom, String adresse, String email, String password, Demandeur d) {

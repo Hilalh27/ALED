@@ -16,13 +16,13 @@ public class Benevole extends Utilisateur {
         this.avis = new ArrayList<Avis>();
         this.moyenne = 0;
         this.missions = new ArrayList<Mission>();
-        try {
+        /*try {
             UtilisateurDAO utilDAO = new UtilisateurDAO();
             utilDAO.ajouterUtilisateur(this, "benevole");
         }
         catch (SQLException e) {
             System.out.println("ERREUR : impossible de créer un utilisateur dans la BDD");
-        }
+        }*/
     }
 
     //METHODES
