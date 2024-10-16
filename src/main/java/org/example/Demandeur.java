@@ -23,13 +23,20 @@ public class Demandeur extends Utilisateur{
         }*/
     }
 
-    private Mission getMission(){
-        return missions.get(0);
+    public Mission getLastMission(){
+        if (missions.size() > 0){
+            return missions.get(missions.size() - 1);
+        }
+        else{
+            return null;
+        }
     }
     //METHODES
-    public void ajouterMission(Mission mission){
+    public Mission creerMission(String categorie, String description, int temps, Date date){
+        Mission mission = new Mission(categorie, description, temps, date);
         this.missions.add(mission);
         mission.setDemandeur(this);
+        return mission;
     }
 
     public void finirMission(Mission mission){

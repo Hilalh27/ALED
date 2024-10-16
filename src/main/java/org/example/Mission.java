@@ -19,10 +19,15 @@ public class Mission {
         this.description = description;
         this.temps = temps;
         this.date = date;
+        this.demandeur = null;
     }
 
     public void setDemandeur(Demandeur demandeur){
         this.demandeur = demandeur;
+    }
+
+    public Demandeur getDemandeur(){
+        return this.demandeur;
     }
 
     public void setStatut(String statut) {
@@ -30,7 +35,7 @@ public class Mission {
     }
 
     public String getStatut() {
-        return statut;
+        return this.statut;
     }
 
     @Override
