@@ -9,6 +9,7 @@ public class Mission {
     private String description;
     private int temps;
     private Date date;
+    private Demandeur demandeur;
 
 
     //CONSTRUCTEUR
@@ -18,6 +19,10 @@ public class Mission {
         this.description = description;
         this.temps = temps;
         this.date = date;
+    }
+
+    public void setDemandeur(Demandeur demandeur){
+        this.demandeur = demandeur;
     }
 
     public void setStatut(String statut) {

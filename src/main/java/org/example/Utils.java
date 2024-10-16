@@ -42,7 +42,6 @@ public class Utils {
         }
     }
 
-
     public static boolean enregistrerNouvelUtilisateur(String nom, String prenom, int statut, String email, String adresse, String password, UtilisateurDAO utilisateurDAO) throws SQLException, SQLException {
 
         if (!emailValide(email)) {
