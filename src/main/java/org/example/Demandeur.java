@@ -14,13 +14,6 @@ public class Demandeur extends Utilisateur{
         super(nom, prenom, adresse, email, password);
         this.valideur = null;
         this.missions = new ArrayList<Mission>();
-        /*try {
-            UtilisateurDAO utilDAO = new UtilisateurDAO();
-            utilDAO.ajouterUtilisateur(this, "demandeur");
-        }
-        catch (SQLException e) {
-            System.out.println("ERREUR : impossible de créer un utilisateur dans la BDD");
-        }*/
     }
 
     public Mission getLastMission(){
@@ -31,8 +24,8 @@ public class Demandeur extends Utilisateur{
             return null;
         }
     }
-    //METHODES
-    public Mission creerMission(String categorie, String description, int temps, Date date){
+/*    //METHODES
+    public Mission creerMission(String categorie, String description, int temps, java.sql.Date date){
         Mission mission = new Mission(categorie, description, temps, date);
         this.missions.add(mission);
         mission.setDemandeur(this);
@@ -41,5 +34,5 @@ public class Demandeur extends Utilisateur{
 
     public void finirMission(Mission mission){
         this.missions.remove(mission);
-    }
+    }*/
 }

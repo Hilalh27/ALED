@@ -4,60 +4,60 @@ import java.util.ArrayList;
 import static org.example.DBConnection.getConnection;
 
 //DAO signifie Data Access Object
-public class UtilisateurDAO {
+public class ValideurDAO {
     private static Connection connection;
 
     //CONSTRUCTEUR
-    public UtilisateurDAO() throws SQLException {
+    public ValideurDAO() throws SQLException {
         this.connection = getConnection(); // Utilise la classe DBConnection pour obtenir une connexion
     }
 
     //METHODES
 
-    public static Connection getConnectionUtilisateurDAO() {
+    public static Connection getConnectionValideurDAO() {
         return connection;
     }
 
     // ajouter un utilisateur dans la bdd
-    public void ajouterUtilisateur(Utilisateur utilisateur) throws SQLException {
-        String sql = "INSERT INTO utilisateurs (prenom, nom, email, adresse, mot_de_passe) VALUES (?, ?, ?, ?, ?)";
+    public void ajouterValideur(Valideur valideur) throws SQLException {
+        String sql = "INSERT INTO valideurs (prenom, nom, email, adresse, mot_de_passe) VALUES (?, ?, ?, ?, ?)";
         PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setString(1, utilisateur.getPrenom());
-        statement.setString(2, utilisateur.getNom());
-        statement.setString(3, utilisateur.getEmail());
-        statement.setString(4, utilisateur.getAdresse());
-        statement.setString(5, utilisateur.getPassword());
+        statement.setString(1, valideur.getPrenom());
+        statement.setString(2, valideur.getNom());
+        statement.setString(3, valideur.getEmail());
+        statement.setString(4, valideur.getAdresse());
+        statement.setString(5, valideur.getPassword());
         statement.executeUpdate(); //Exécute la requete
     }
 
-    public boolean supprimerUtilisateur(int idUtilisateur) throws SQLException {
-        String sql = "DELETE FROM utilisateurs WHERE id_utilisateur = ?";
+    public boolean supprimerValideur(int idValideur) throws SQLException {
+        String sql = "DELETE FROM valideurs WHERE id_valideur = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setInt(1, idUtilisateur);
+        statement.setInt(1, idValideur);
 
-        int utilisateurTrouve = statement.executeUpdate(); //retourne le nb d'utilisateurs trouvés
-                                                            // 1 normalement car id unique, 0 s'il n'existe pas
+        int valideurTrouve = statement.executeUpdate(); //retourne le nb de valideur trouvés
+        // 1 normalement car id unique, 0 s'il n'existe pas
 
-        if (utilisateurTrouve > 0) {
-            System.out.println("Utilisateur supprimé avec succès.");
+        if (valideurTrouve > 0) {
+            System.out.println("Valideur supprimé avec succès.");
         } else {
-            System.out.println("Aucun utilisateur trouvé avec cet ID.");
+            System.out.println("Aucun valideur trouvé avec cet ID.");
         }
-        return utilisateurTrouve > 0;
+        return valideurTrouve > 0;
     }
 
     // L'utilisateur ne connait pas son ID
-    public int trouverUtilisateurParEmail(String email) throws SQLException {
-        String sql = "SELECT id_utilisateur FROM utilisateurs WHERE email = ?";
+    public int trouverValideurParEmail(String email) throws SQLException {
+        String sql = "SELECT id_valideur FROM valideurs WHERE email = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setString(1, email);
         ResultSet resultSet = statement.executeQuery();
 
         if (resultSet.next()) { //si utilisateur trouvé
-            return resultSet.getInt("id_utilisateur");
+            return resultSet.getInt("id_valideur");
         } else {
-            System.out.println("Aucun utilisateur trouvé avec cet email.");
-            return -1; // si aucun utilisateur n'est trouvé :(
+            System.out.println("Aucun valideur trouvé avec cet email.");
+            return -1; // si aucun valideur n'est trouvé :(
         }
     }
 
@@ -76,10 +76,9 @@ public class UtilisateurDAO {
         return false;
     }
 
-
     //verifie si mail et mdp correspondent pour accéder au compte
     public static boolean verifierIdentifiants(String email, String password) throws SQLException {
-        String sql = "SELECT id_utilisateur FROM utilisateurs WHERE email = ? AND mot_de_passe = ?";
+        String sql = "SELECT id_valideur FROM valideurs WHERE email = ? AND mot_de_passe = ?";
 
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setString(1, email);
@@ -97,13 +96,13 @@ public class UtilisateurDAO {
         }
     }
 
-    public Utilisateur stockerUtilisateurParId(int id_utilisateur) throws SQLException {
+    public Valideur stockerValideurParId(int id_valideur) throws SQLException {
         // Déclare une variable pour stocker l'utilisateur
-        Utilisateur utilisateur = null;
+        Valideur valideur = null;
 
-        String sql = "SELECT prenom, nom, email, adresse, mot_de_passe FROM utilisateurs WHERE id_utilisateur = ?";
+        String sql = "SELECT prenom, nom, email, adresse, mot_de_passe FROM valideurs WHERE id_valideur = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setInt(1, id_utilisateur);
+        statement.setInt(1, id_valideur);
         ResultSet resultSet = statement.executeQuery();
 
         if (resultSet.next()) {
@@ -113,12 +112,12 @@ public class UtilisateurDAO {
             String adresse = resultSet.getString("adresse");
             String password = resultSet.getString("mot_de_passe");
 
-            utilisateur = new Utilisateur(nom, prenom, adresse, email, password);
+            valideur = new Valideur(nom, prenom, adresse, email, password);
         } else {
-            System.out.println("Utilisateur non trouvé avec l'ID : " + id_utilisateur);
+            System.out.println("Utilisateur non trouvé avec l'ID : " + id_valideur);
         }
 
-        return utilisateur;
+        return valideur;
     }
 
 }
