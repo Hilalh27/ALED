@@ -16,7 +16,9 @@ public class Demandeur extends Utilisateur{
         this.missions = new ArrayList<Mission>();
     }
 
-    public Mission getLastMission(){
+    public Mission getLastMission(
+            
+    ){
         if (missions.size() > 0){
             return missions.get(missions.size() - 1);
         }

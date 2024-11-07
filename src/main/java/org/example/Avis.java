@@ -5,8 +5,8 @@ import java.sql.Date;
 public class Avis {
 
     //ATTRIBUTS
-    int id_mission;
-    int id_utilisateur_auteur;
+    private int id_mission;
+    private int id_utilisateur_auteur;
     private int note;
     private String commentaire;
     private java.sql.Date date_avis;

@@ -30,7 +30,7 @@ public class Utils {
     // Methodes se rattachant à UtilisateurDAO et ValideurDAO
     //====================================================================================//
 
-    public static boolean enregistrerNouvelUtilisateur(String nom, String prenom, String email, String adresse, String password, UtilisateurDAO utilisateurDAO) throws SQLException, SQLException {
+    public static boolean enregistrerNouvelUtilisateur(String nom, String prenom, String email, String adresse, String password, UtilisateurDAO utilisateurDAO) throws SQLException {
 
         if (!emailValide(email)) {
             System.out.println("Email invalide.");

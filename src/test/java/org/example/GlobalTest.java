@@ -2,7 +2,7 @@ package org.example;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /*
 Les tests portent sur les méthodes de la classe Utils
@@ -11,7 +11,7 @@ Les méthodes des classes DAO utilisent les méthodes des classes "classiques" :
 Ainsi toutes les méthodes sont testées
  */
 
-class MissionTest {
+class GlobalTest {
 
     @Test
     void emailValidTestValid() {

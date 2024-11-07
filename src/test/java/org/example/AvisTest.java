@@ -11,7 +11,7 @@ Les méthodes des classes DAO utilisent les méthodes des classes "classiques" :
 Ainsi toutes les méthodes sont testées
  */
 
-class MissionTest {
+class AvisTest {
 
     @Test
     void emailValidTestValid() {
