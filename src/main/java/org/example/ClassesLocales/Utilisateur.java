@@ -1,9 +1,6 @@
-package org.example;
+package org.example.ClassesLocales;
 
 //import java.sql.SQLException;
-
-import java.util.ArrayList;
-import java.util.Date;
 
 //demandeur ou benevole
 public class Utilisateur {

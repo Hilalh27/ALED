@@ -1,7 +1,9 @@
-package org.example;
+package org.example.BDDCommunication;
+import org.example.ClassesLocales.Utilisateur;
+
 import java.sql.*;
-import java.util.ArrayList;
-import static org.example.DBConnection.getConnection;
+
+import static org.example.BDDCommunication.DBConnection.getConnection;
 
 //DAO signifie Data Access Object
 public class UtilisateurDAO {

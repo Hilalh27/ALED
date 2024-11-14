@@ -1,4 +1,6 @@
-package org.example;
+package org.example.BDDCommunication;
+import org.example.ClassesLocales.Avis;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

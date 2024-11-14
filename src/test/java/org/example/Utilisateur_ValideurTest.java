@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.BDDCommunication.UtilisateurDAO;
+import org.example.BDDCommunication.ValideurDAO;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;

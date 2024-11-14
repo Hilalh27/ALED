@@ -1,6 +1,5 @@
-package org.example;
+package org.example.ClassesLocales;
 //import java.sql.SQLException;
-import java.util.*;
 
 public class Valideur {
 

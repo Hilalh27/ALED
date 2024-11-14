@@ -1,5 +1,17 @@
 package org.example;
 
+import org.example.BDDCommunication.AvisDAO;
+import org.example.BDDCommunication.MissionDAO;
+import org.example.BDDCommunication.UtilisateurDAO;
+import org.example.BDDCommunication.ValideurDAO;
+import org.example.ClassesLocales.Avis;
+import org.example.ClassesLocales.Mission;
+import org.example.ClassesLocales.Utilisateur;
+import org.example.ClassesLocales.Valideur;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -279,6 +291,58 @@ public class Utils {
         int id_auteur = utilisateurDAO.trouverUtilisateurParEmail(email);
         return avisDAO.getLesAvisAuteur(id_auteur);
     }
+
+    // interface graphique
+
+    // redimensionner image
+    public static ImageIcon redimImage(ImageIcon icon, int width, int height) {
+        Image img = icon.getImage();
+        Image scaledImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        return new ImageIcon(scaledImg);
+    }
+
+    // bouton avec style
+    /*public static JButton creerBouton(String text) {
+        JButton button = new JButton(text);
+        button.setBackground(Color.LIGHT_GRAY);
+        button.setForeground(Color.BLACK);
+        button.setFont(new Font("Arial", Font.BOLD, 12));
+        button.setFocusPainted(false);
+        button.setMaximumSize(new Dimension(150, 30)); // Taille réduite et fixe
+        return button;
+    }*/
+
+    public static JButton creerBouton(String text) {
+        JButton button = new JButton(text);
+
+        // Couleurs de fond et de texte
+        button.setBackground(new Color(33, 33, 33)); // Fond noir-gris
+        button.setForeground(Color.WHITE); // Texte blanc
+
+        // Police et style du texte
+        button.setFont(new Font("Arial", Font.BOLD, 16));
+
+        // Taille fixe
+        button.setPreferredSize(new Dimension(200, 50)); // Dimensions ajustées pour ressembler au bouton de l'image
+        button.setFocusPainted(false);
+
+        // Bordures arrondies
+        button.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        button.setContentAreaFilled(false);
+        button.setOpaque(true);
+
+        // Effet d'ombrage doux
+        button.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(33, 33, 33), 2),
+                BorderFactory.createEmptyBorder(10, 10, 10, 10)
+        ));
+
+        return button;
+    }
+
+
+
+
 
     /*
 

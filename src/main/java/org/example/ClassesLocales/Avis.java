@@ -1,4 +1,4 @@
-package org.example;
+package org.example.ClassesLocales;
 
 import java.sql.Date;
 
