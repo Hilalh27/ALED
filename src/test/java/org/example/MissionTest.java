@@ -1,5 +1,12 @@
 package org.example;
 
+import org.example.BDDCommunication.MissionDAO;
+import org.example.BDDCommunication.UtilisateurDAO;
+import org.example.BDDCommunication.ValideurDAO;
+import org.example.BDDCommunication.AvisDAO;
+import org.example.ClassesLocales.Mission;
+import org.example.ClassesLocales.Utilisateur;
+import org.example.ClassesLocales.Valideur;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
