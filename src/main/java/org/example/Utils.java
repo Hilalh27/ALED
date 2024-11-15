@@ -227,7 +227,7 @@ public class Utils {
     // Bénévole qui propose une mission spontanée
     public static void proposerMission (Utilisateur benevole, String description, MissionDAO missionDAO, UtilisateurDAO utilisateurDAO) throws SQLException {
         int id_benevole = getUserId(benevole, utilisateurDAO);
-        missionDAO.ajouterMissionSpontanee(id_benevole, description, dateActuelle(), "en attente");
+        missionDAO.ajouterMissionSpontannee(id_benevole, description, dateActuelle(), "en attente");
     }
 
     // Valideur qui s'assigne une mission et la valide
