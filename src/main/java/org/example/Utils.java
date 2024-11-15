@@ -39,6 +39,7 @@ public class Utils {
         return Date.valueOf(dateActuelle);
     }
 
+
     // Methodes se rattachant à UtilisateurDAO et ValideurDAO
     //====================================================================================//
 
@@ -109,6 +110,25 @@ public class Utils {
         }
     }
 
+    public static boolean supprimerValideur(String email, String motDePasse, ValideurDAO valideurDAO) throws SQLException {
+        boolean valideurValide = valideurDAO.verifierIdentifiants(email, motDePasse);
+
+        if (valideurValide) {
+            int idValideur = valideurDAO.trouverValideurParEmail(email);
+            boolean valideurSupprime = valideurDAO.supprimerValideur(idValideur);
+            if (valideurSupprime) {
+                System.out.println("Valideur supprimé avec succès.");
+                return true;
+            } else {
+                System.out.println("Échec de la suppression du valideur.");
+                return false;
+            }
+        } else {
+            System.out.println("Identifiants incorrects. Impossible de supprimer le valideur.");
+            return false;
+        }
+    }
+
     public static boolean connexionUtilisateur(String email, String password) throws SQLException {
         return UtilisateurDAO.verifierIdentifiants(email, password);
     }
@@ -148,12 +168,13 @@ public class Utils {
     // Renvoie l'id d'un utilisateur
     public static int getUserId(Utilisateur utilisateur, UtilisateurDAO utilisateurDAO) throws SQLException {
         return utilisateurDAO.trouverUtilisateurParEmail(utilisateur.getEmail());
-        }
+    }
 
     // Renvoie l'id d'un valideur
     public static int getValideurId(Valideur valideur, ValideurDAO valideurDAO) throws SQLException {
         return valideurDAO.trouverValideurParEmail(valideur.getEmail());
     }
+
 
     // Methodes se rattachant à MissionDAO
     //====================================================================================//
@@ -206,7 +227,7 @@ public class Utils {
     // Bénévole qui propose une mission spontanée
     public static void proposerMission (Utilisateur benevole, String description, MissionDAO missionDAO, UtilisateurDAO utilisateurDAO) throws SQLException {
         int id_benevole = getUserId(benevole, utilisateurDAO);
-        missionDAO.ajouterMissionSpontannee(id_benevole, description, dateActuelle(), "en attente");
+        missionDAO.ajouterMissionSpontanee(id_benevole, description, dateActuelle(), "en attente");
     }
 
     // Valideur qui s'assigne une mission et la valide
@@ -258,6 +279,7 @@ public class Utils {
     public static void modifierDescriptionMission(int id_mission, String nouvelleDescription, MissionDAO missionDAO) throws SQLException {
         missionDAO.majDescriptionMission(id_mission, nouvelleDescription);
     }
+
 
     // Methodes se rattachant à AvisDAO
     //====================================================================================//
@@ -344,6 +366,7 @@ public class Utils {
 
 
 
+
     /*
 
     ATTENTION : Tout ce qui est SQL dans les classes DAO
@@ -354,6 +377,8 @@ public class Utils {
     et rien dans la bdd
 
     À AJOUTER
+
+    getIdMission
 
     Ajouter une protection pour qu'un avis ne puisse être émis que par le demandeur de la mission
     un truc similaire à if (Objects.equals(missionDAO.getStatutMission(id_mission), "réalisée"))

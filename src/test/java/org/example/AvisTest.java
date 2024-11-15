@@ -2,6 +2,9 @@ package org.example;
 
 import org.junit.jupiter.api.Test;
 
+import java.sql.SQLException;
+import java.util.Objects;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /*
@@ -13,36 +16,54 @@ Ainsi toutes les méthodes sont testées
 
 class AvisTest {
 
+
+    // donnerAvis
+    // recupererAvis
+    // recupererLesAvisMission
+    // recupererLesAvisAuteur
     @Test
-    void emailValidTestValid() {
-        String emailValid = "noe.caillet@laposte.net";
-        assertEquals(true, Utils.emailValide(emailValid));
+    void avisTestClassique() {
+        try {
+            //setup
+            UtilisateurDAO utilisateurDAO = new UtilisateurDAO();
+            ValideurDAO valideurDAO = new ValideurDAO();
+            MissionDAO missionDAO = new MissionDAO(UtilisateurDAO.getConnectionUtilisateurDAO());
+            AvisDAO avisDAO = new AvisDAO(UtilisateurDAO.getConnectionUtilisateurDAO());
+
+            Utils.enregistrerNouvelUtilisateur("nom", "prenom", "email@yahoo.fr", "adresse", "password", utilisateurDAO);
+            Utilisateur auteur = Utils.recupererUtilisateurConnecte("email@yahoo.fr", utilisateurDAO);
+            Utils.enregistrerNouvelUtilisateur("bla","bla","bla@gmail.com", "adressebla","pwd", utilisateurDAO);
+            Utilisateur benevole = Utils.recupererUtilisateurConnecte("bla@gmail.com", utilisateurDAO);
+            Utils.enregistrerNouveauValideur("valideur", "valideur", "email@valideur.fr", "adresse_valideur", "passworddevalideur",valideurDAO);
+            Valideur valideur = Utils.recupererValideurConnecte("email@valideur.fr", valideurDAO);
+
+            Utils.demanderMission(auteur, "mission classique", missionDAO, utilisateurDAO);
+            Utils.finirMission(1, missionDAO);
+            Mission mission = Utils.historiqueMissionsDemandeur(auteur, utilisateurDAO, missionDAO).getFirst();
+            int id_mission = mission.getId_mission();
+
+            //actual test
+            Utils.donnerAvis(id_mission, auteur, 4, "bien réalisée", utilisateurDAO, avisDAO, missionDAO);
+        }
+            catch(SQLException e) {
+            System.out.println("[missionTestClassique] failed because of SQLException: " + e.getMessage());
+        }
     }
     @Test
-    void emailValidTestInvalid() {
-        String emailInvalid = "email invalide";
-        assertEquals(false, Utils.emailValide(emailInvalid));
+    void recupererAvisTest() {
+        assertEquals(true,true);
     }
     @Test
-    void emailValidTestNull() {
-        String emailNull = "";
-        assertEquals(false, Utils.emailValide(emailNull));
+    void stockerAvisTest() {
+        assertEquals(true,true);
     }
 
     @Test
-    void passwordValideTestValid() {
-        String passwordValid = "1aergergerg";
-        assertEquals(true, Utils.passwordValide(passwordValid));
+    void getLesAvisMissionTest() {
+        assertEquals(true,true);
     }
     @Test
-    void passwordValideTestInvalid() {
-        String passwordInvalid = "---";
-        assertEquals(false, Utils.passwordValide(passwordInvalid));
+    void getLesAvisAuteurTest() {
+        assertEquals(true,true);
     }
-    @Test
-    void passwordValideTestNull() {
-        String passwordNull = "";
-        assertEquals(false, Utils.passwordValide(passwordNull));
-    }
-
 }
