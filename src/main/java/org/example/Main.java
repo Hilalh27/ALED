@@ -15,8 +15,7 @@ public class Main {
 
         VuePrincipale.lancerUI();
 
-        //VuePrincipale.lancerUI();
-
+    /*
         UtilisateurDAO utilisateurDAO = new UtilisateurDAO();
         ValideurDAO valideurDAO = new ValideurDAO();
         MissionDAO missionDAO = new MissionDAO(UtilisateurDAO.getConnectionUtilisateurDAO());
@@ -61,5 +60,8 @@ public class Main {
             Utils.finirMission(1,missionDAO);
             Utils.donnerAvis(1, user, 4, "bien Pierre B !", utilisateurDAO, avisDAO, missionDAO);
         }
+
+     */
     }
+
 }

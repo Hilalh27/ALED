@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class VuePrincipale  extends JFrame {
 
-    private static JPanel mainPanel;
+    static JPanel mainPanel;
 
     // passer d'une page à une autre
     public static void allerALaPage(String panelName) {
@@ -34,11 +34,13 @@ public class VuePrincipale  extends JFrame {
         SelectionScreen.initSelectionScreen();
         ConnexionScreen.initConnexionScreen();
         CreationCompteScreen.initCreationCompteScreen();
+        UtilisateurScreen.initSplashScreen2();
 
         mainPanel.add(SplashScreen.splashScreen, "SplashScreen");
         mainPanel.add(SelectionScreen.selectionScreen, "SelectionScreen");
         mainPanel.add(ConnexionScreen.connexionScreen, "ConnexionScreen");
         mainPanel.add(CreationCompteScreen.creationCompteScreen, "CreationCompteScreen");
+        mainPanel.add(UtilisateurScreen.splashScreen, "UtilisateurScreen");
 
         showSplashScreen();
     }

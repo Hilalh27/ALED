@@ -1,9 +1,12 @@
 package org.example.InterfaceGraphique;
 
+import org.example.BDDCommunication.UtilisateurDAO;
+import org.example.BDDCommunication.ValideurDAO;
 import org.example.Utils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
 
 public class ConnexionScreen {
     public static JTextField emailField;
@@ -11,7 +14,7 @@ public class ConnexionScreen {
 
     public static JPanel connexionScreen;
 
-    public static void initConnexionScreen() {
+    public static void initConnexionScreen () {
         connexionScreen = new JPanel(new BorderLayout());
         connexionScreen.setBackground(Color.WHITE);
 
@@ -32,6 +35,7 @@ public class ConnexionScreen {
         JButton connexionButton = Utils.creerBouton("Se connecter");
         connexionButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+
         JLabel createAccountLabel = new JLabel("<html><b>Créer un nouveau compte</b></html>");
         createAccountLabel.setForeground(Color.BLACK);
         createAccountLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -46,6 +50,37 @@ public class ConnexionScreen {
         backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         backButton.addActionListener(e -> VuePrincipale.allerALaPage("SelectionScreen"));
 
+        connexionButton.addActionListener(e -> {
+            UtilisateurDAO utilisateurDAO = null;
+            try {
+                utilisateurDAO = new UtilisateurDAO();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            ValideurDAO valideurDAO = null;
+            try {
+                valideurDAO = new ValideurDAO();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+
+            if (validerConnexion(emailField, passwordField, SelectionScreen.isEstValideur(), utilisateurDAO, valideurDAO)) {
+                // Si la connexion réussit, aller à l'écran utilisateur
+                VuePrincipale.mainPanel.add(UtilisateurScreen.splashScreen, "UtilisateurScreen");
+                if(SelectionScreen.isEstValideur()) {
+                    VuePrincipale.allerALaPage("ValideurScreen");
+                }
+                else{
+                    VuePrincipale.allerALaPage("UtilisateurScreen");
+                }
+            } else {
+                // Si la connexion échoue, afficher un message d'erreur
+                JOptionPane.showMessageDialog(connexionScreen, "Connexion échouée. Vérifiez vos identifiants.",
+                        "Erreur de connexion", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+
         formPanel.add(emailLabel);
         formPanel.add(emailField);
         formPanel.add(Box.createVerticalStrut(10));
@@ -59,5 +94,41 @@ public class ConnexionScreen {
         formPanel.add(backButton);
 
         connexionScreen.add(formPanel, BorderLayout.CENTER);
+
+
     }
+
+    public static boolean validerConnexion(JTextField emailField, JPasswordField passwordField, boolean estValideur, UtilisateurDAO utilisateurDAO, ValideurDAO valideurDAO) {
+        try {
+            // Récupérer les valeurs des champs de texte
+            String email = emailField.getText();
+            String password = new String(passwordField.getPassword());
+
+            if (estValideur) {
+                // Vérification pour un valideur
+                if (Utils.connexionValideur(email, password)) {
+                    System.out.println("Connexion valideur réussie !");
+                    //utiliser recupererValideurConnecte
+                    return true;
+                } else {
+                    System.out.println("Échec de la connexion en tant que valideur.");
+                }
+            } else {
+                // Vérification pour un utilisateur
+                if (Utils.connexionUtilisateur(email, password)) {
+                    System.out.println("Connexion utilisateur réussie !");
+                    //utiliser recupererUtilisateurConnecte
+                    return true;
+                } else {
+                    System.out.println("Échec de la connexion en tant qu'utilisateur.");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur SQL lors de la tentative de connexion : " + e.getMessage());
+        }
+        return false;
+    }
+
+
+
 }

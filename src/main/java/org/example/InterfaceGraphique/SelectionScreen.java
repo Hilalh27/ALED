@@ -10,6 +10,12 @@ public class SelectionScreen {
     public static JPanel selectionScreen;
     public static JLabel logoLabel;
 
+    private static boolean estValideur;
+
+    public static boolean isEstValideur() {
+        return estValideur;
+    }
+
     public static void initSelectionScreen() {
 
         selectionScreen = new JPanel(new BorderLayout());
@@ -31,8 +37,8 @@ public class SelectionScreen {
         JButton userButton = Utils.creerBouton("Utilisateur");
         JButton validatorButton = Utils.creerBouton("Valideur");
 
-        userButton.addActionListener(e -> VuePrincipale.allerALaPage("ConnexionScreen"));
-        validatorButton.addActionListener(e -> VuePrincipale.allerALaPage("ConnexionScreen"));
+        userButton.addActionListener(e -> choixUtilisateur ());
+        validatorButton.addActionListener(e -> choixValideur ());
 
         centerPanel.add(Box.createVerticalStrut(20));
         centerPanel.add(logoLabel);
@@ -43,5 +49,15 @@ public class SelectionScreen {
         centerPanel.add(validatorButton);
 
         selectionScreen.add(centerPanel, BorderLayout.CENTER);
+    }
+
+    private static void choixUtilisateur(){
+        VuePrincipale.allerALaPage("ConnexionScreen");
+        estValideur = false;
+    }
+
+    private static void choixValideur(){
+        VuePrincipale.allerALaPage("ConnexionScreen");
+        estValideur = true;
     }
 }
