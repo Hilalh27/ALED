@@ -44,8 +44,11 @@ public class Utils {
     //====================================================================================//
 
     public static boolean enregistrerNouvelUtilisateur(String nom, String prenom, String email, String adresse, String password, UtilisateurDAO utilisateurDAO) throws SQLException {
+        System.out.println(email);
+        System.out.println(nom);
 
         if (!emailValide(email)) {
+            System.out.println(email);
             System.out.println("Email invalide.");
             return false;
         }
@@ -334,7 +337,7 @@ public class Utils {
         return button;
     }*/
 
-    public static JButton creerBouton(String text) {
+/*    public static JButton creerBouton(String text) {
         JButton button = new JButton(text);
 
         // Couleurs de fond et de texte
@@ -358,6 +361,24 @@ public class Utils {
                 BorderFactory.createLineBorder(new Color(33, 33, 33), 2),
                 BorderFactory.createEmptyBorder(10, 10, 10, 10)
         ));
+
+        return button;
+    }*/
+
+    public static JButton creerBouton(String text) {
+        JButton button = new JButton(text);
+        button.setFont(new Font("Arial", Font.PLAIN, 22)); // Texte plus grand
+        button.setPreferredSize(new Dimension(250, 40)); // Taille fixe pour tous les boutons
+        button.setMaximumSize(new Dimension(250, 40)); // Limite de taille maximale
+        button.setMinimumSize(new Dimension(250, 40)); // Limite de taille minimale
+        button.setBackground(new Color(70, 130, 180)); // Couleur de fond bleue
+        button.setForeground(Color.WHITE); // Texte blanc
+        button.setFocusPainted(false); // Supprime le contour bleu lors du focus
+        button.setBorder(BorderFactory.createLineBorder(new Color(50, 90, 150), 2)); // Bordure fine pour un effet esthétique
+        button.setOpaque(true); // Force la peinture de l'arrière-plan
+
+        // Ajout du curseur "main" sur survol
+        button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         return button;
     }

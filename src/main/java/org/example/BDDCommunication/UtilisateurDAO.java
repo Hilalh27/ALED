@@ -9,9 +9,13 @@ import static org.example.BDDCommunication.DBConnection.getConnection;
 public class UtilisateurDAO {
     private static Connection connection;
 
-    //CONSTRUCTEUR
+    //CONSTRUCTEURS
     public UtilisateurDAO() throws SQLException {
         this.connection = getConnection(); // Utilise la classe DBConnection pour obtenir une connexion
+    }
+
+    public UtilisateurDAO(Connection connection) throws SQLException {
+        this.connection = connection; // Utilise la classe DBConnection pour obtenir une connexion
     }
 
     //METHODES

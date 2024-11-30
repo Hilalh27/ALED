@@ -55,6 +55,10 @@ public class Utilisateur {
         return password;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
 /*
     //demandeur
     public Mission getLastMissionDemandee(){

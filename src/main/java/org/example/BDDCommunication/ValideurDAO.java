@@ -14,6 +14,10 @@ public class ValideurDAO {
         this.connection = getConnection(); // Utilise la classe DBConnection pour obtenir une connexion
     }
 
+    public ValideurDAO(Connection connection) throws SQLException {
+        this.connection = connection; // Utilise la classe DBConnection pour obtenir une connexion
+    }
+
     //METHODES
 
     public static Connection getConnectionValideurDAO() {
