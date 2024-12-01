@@ -299,6 +299,28 @@ public class Utils {
         missionDAO.majDescriptionMission(id_mission, nouvelleDescription);
     }
 
+    public static int getIdMission(String description, MissionDAO missionDAO) throws SQLException{
+        return missionDAO.getIdMission(description);
+    }
+
+    public static boolean supprimerMission (String description, MissionDAO missionDAO) throws SQLException {
+        int idMission = missionDAO.getIdMission(description);
+
+        if (idMission>0) { //CONTINUER
+            boolean missionSupprime = missionDAO.supprimerMission(idMission);
+            if (missionSupprime) {
+                System.out.println("Mission supprimée avec succès.");
+                return true;
+            } else {
+                System.out.println("Échec de la suppression de la mission.");
+                return false;
+            }
+        } else {
+            System.out.println("Mission inexistante. Impossible de supprimer la mission.");
+            return false;
+        }
+    }
+
 
     // Methodes se rattachant à AvisDAO
     //====================================================================================//
@@ -332,6 +354,27 @@ public class Utils {
         int id_auteur = utilisateurDAO.trouverUtilisateurParEmail(email);
         return avisDAO.getLesAvisAuteur(id_auteur);
     }
+
+    public static boolean supprimerAvis (int idMission, int idAuteur, AvisDAO avisDAO) throws SQLException{
+        ///ICIICICIICIIIIIIICCCICICIIIICIIIC
+        int idAvis = avisDAO.trouverAvisParAuteurEtMission(idMission, idAuteur);
+
+        if (idAvis>0) { //CONTINUER
+            boolean avisSupprime = avisDAO.supprimerAvis(idAvis);
+            if (avisSupprime) {
+                System.out.println("Avis supprimé avec succès.");
+                return true;
+            } else {
+                System.out.println("Échec de la suppression de l'avis.");
+                return false;
+            }
+        } else {
+            System.out.println("Mission inexistante. Impossible de supprimer la mission.");
+            return false;
+        }
+    }
+
+
 
     // interface graphique
 

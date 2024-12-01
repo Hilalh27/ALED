@@ -5,13 +5,15 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.example.BDDCommunication.DBConnection.getConnection;
+
 //DAO signifie Data Access Object
 public class MissionDAO {
     private Connection connection;
 
     //CONSTRUCTEUR
     public MissionDAO(Connection connection) throws SQLException {
-        this.connection = connection; // Utilise la classe DBConnection pour obtenir une connexion
+        this.connection = getConnection(); // Utilise la classe DBConnection pour obtenir une connexion
     }
 
     //METHODES
@@ -29,6 +31,48 @@ public class MissionDAO {
         statement.setDate(3, date_mission);
         statement.setString(4, statut);
         statement.executeUpdate();
+    }
+
+    public boolean supprimerMission(int idMission) throws SQLException {
+        String sql_foreign_zero = "SET FOREIGN_KEY_CHECKS = 0";
+        PreparedStatement statement_zero = connection.prepareStatement(sql_foreign_zero);
+        statement_zero.executeUpdate();
+
+        String sql = "DELETE FROM missions WHERE id_mission = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, idMission);
+
+        int missionTrouve = statement.executeUpdate(); //retourne le nb de missions trouvées
+                                                       // 1 normalement car id unique, 0 s'il n'existe pas
+
+        String sql_foreign_one = "SET FOREIGN_KEY_CHECKS = 1";
+        PreparedStatement statement_one = connection.prepareStatement(sql_foreign_one);
+        statement_one.executeUpdate();
+
+        if (missionTrouve > 0) {
+            System.out.println("Mission supprimée avec succès.");
+        } else {
+            System.out.println("Aucune mission trouvée avec cet ID."); //ne doit pas arriver
+        }
+        return missionTrouve > 0;
+    }
+
+    //verifie si mail et mdp correspondent pour accéder au compte
+    public int getIdMission(String description) throws SQLException {
+        String sql = "SELECT id_mission FROM missions WHERE description = ? ";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, description);
+        ResultSet resultSet = statement.executeQuery();
+
+        // si la mission existe
+        if (resultSet.next()) {
+            System.out.println("Mission existe.");
+            return resultSet.getInt(1);
+        }
+        else {
+            System.out.println("Mission inexistante.");
+            return -1; //mot de passe ou mail incorrect
+        }
     }
 
     //ajouter mission avec benevole
@@ -280,7 +324,7 @@ public class MissionDAO {
     public List<Mission> getMissionsEnCoursBenevole(int id_benevole) throws SQLException {
         List<Mission> missions = new ArrayList<>();
         String sql = "SELECT id_mission, statut, description, id_demandeur, id_benevole, id_valideur, motif_refus, date_mission " +
-                "FROM missions WHERE id_benevole = ? AND (statut = 'acceptée')";
+                "FROM missions WHERE id_benevole = ? AND (statut = 'acceptée' OR statut ='validée')";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setInt(1, id_benevole);
         ResultSet resultSet = statement.executeQuery();

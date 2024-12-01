@@ -10,6 +10,9 @@ import org.example.ClassesLocales.Valideur;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -36,27 +39,35 @@ class MissionTest {
     @Test
     void missionTestClassique() {
         try{
+            //Setup
             UtilisateurDAO utilisateurDAO = new UtilisateurDAO();
             ValideurDAO valideurDAO = new ValideurDAO();
             MissionDAO missionDAO = new MissionDAO(UtilisateurDAO.getConnectionUtilisateurDAO());
 
-            Utils.enregistrerNouvelUtilisateur("nom", "prenom", "email@yahoo.fr", "adresse", "password", utilisateurDAO);
+            Utils.enregistrerNouvelUtilisateur("nom", "prenom", "email@yahoo.fr", "adresse", "password1", utilisateurDAO);
             Utilisateur demandeur = Utils.recupererUtilisateurConnecte("email@yahoo.fr", utilisateurDAO);
-            Utils.enregistrerNouvelUtilisateur("bla","bla","bla@gmail.com", "adressebla","pwd", utilisateurDAO);
+            Utils.enregistrerNouvelUtilisateur("bla","bla","bla@gmail.com", "adressebla","pwd1", utilisateurDAO);
             Utilisateur benevole = Utils.recupererUtilisateurConnecte("bla@gmail.com", utilisateurDAO);
-            Utils.enregistrerNouveauValideur("valideur", "valideur", "email@valideur.fr", "adresse_valideur", "passworddevalideur",valideurDAO);
+            Utils.enregistrerNouveauValideur("valideur", "valideur", "email@valideur.fr", "adresse_valideur", "password2valideur",valideurDAO);
             Valideur valideur = Utils.recupererValideurConnecte("email@valideur.fr", valideurDAO);
 
-
+            //Test
             Utils.demanderMission(demandeur, "mission classique", missionDAO, utilisateurDAO);
-            assertEquals("mission classique", Utils.avoirToutesMissionsEnAttente(missionDAO).getFirst().getDescription());
-            Utils.validerMission(valideur, 1, missionDAO, valideurDAO);
-            assertEquals("validée", Utils.missionsEnCoursDemandeur(demandeur, utilisateurDAO, missionDAO).getFirst().getStatut());
-            assertEquals("mission classique", Utils.avoirToutesMissionsValidees(missionDAO).getFirst().getDescription());
-            Utils.accepterMissionDemandee(benevole, 1, missionDAO, utilisateurDAO);
-            assertEquals("acceptée", Utils.missionsEnCoursBenevole(benevole, utilisateurDAO, missionDAO).getFirst().getStatut());
-            Utils.finirMission(1, missionDAO);
-            assertEquals("réalisée", Utils.historiqueMissionsBenevole(benevole, utilisateurDAO, missionDAO).getFirst().getStatut());
+            int id_mission = Utils.getIdMission("mission classique", missionDAO);
+            assertEquals("mission classique", Utils.avoirToutesMissionsEnAttente(missionDAO).getLast().getDescription());
+            Utils.validerMission(valideur, id_mission, missionDAO, valideurDAO);
+            assertEquals("validée", Utils.missionsEnCoursDemandeur(demandeur, utilisateurDAO, missionDAO).getLast().getStatut());
+            assertEquals("mission classique", Utils.avoirToutesMissionsValidees(missionDAO).getLast().getDescription());
+            Utils.accepterMissionDemandee(benevole, id_mission, missionDAO, utilisateurDAO);
+            assertEquals("acceptée", Utils.missionsEnCoursBenevole(benevole, utilisateurDAO, missionDAO).getLast().getStatut());
+            Utils.finirMission(id_mission, missionDAO);
+            assertEquals("réalisée", Utils.historiqueMissionsBenevole(benevole, utilisateurDAO, missionDAO).getLast().getStatut());
+
+            // clean up
+            Utils.supprimerUtilisateur("email@yahoo.fr","password1", utilisateurDAO);
+            Utils.supprimerUtilisateur("bla@gmail.com","pwd1", utilisateurDAO);
+            Utils.supprimerValideur("email@valideur.fr","password2valideur", valideurDAO);
+            Utils.supprimerMission("mission classique", missionDAO);
 
         }
         catch(SQLException e) {
@@ -77,18 +88,24 @@ class MissionTest {
             ValideurDAO valideurDAO = new ValideurDAO();
             MissionDAO missionDAO = new MissionDAO(UtilisateurDAO.getConnectionUtilisateurDAO());
 
-            Utils.enregistrerNouvelUtilisateur("nom", "prenom", "email@yahoo.fr", "adresse", "password", utilisateurDAO);
+            Utils.enregistrerNouvelUtilisateur("nom", "prenom", "email@yahoo.fr", "adresse", "password1", utilisateurDAO);
             Utilisateur demandeur = Utils.recupererUtilisateurConnecte("email@yahoo.fr", utilisateurDAO);
-            Utils.enregistrerNouveauValideur("valideur", "valideur", "email@valideur.fr", "adresse_valideur", "passworddevalideur",valideurDAO);
+            Utils.enregistrerNouveauValideur("valideur", "valideur", "email@valideur.fr", "adresse_valideur", "password2valideur",valideurDAO);
             Valideur valideur = Utils.recupererValideurConnecte("email@valideur.fr", valideurDAO);
 
             //Tests
             Utils.demanderMission(demandeur, "description de la mission", missionDAO, utilisateurDAO);
-            assertEquals("description de la mission", Utils.avoirToutesMissionsEnAttente(missionDAO).getFirst().getDescription());
-            Utils.modifierDescriptionMission(1, "nouvelle description", missionDAO);
-            assertEquals("nouvelle description", Utils.avoirToutesMissionsEnAttente(missionDAO).getFirst().getDescription());
-            Utils.refuserMission(valideur, 1, "motif du refus", missionDAO, valideurDAO);
-            assertEquals("refusée", Utils.historiqueMissionsDemandeur(demandeur, utilisateurDAO, missionDAO).getFirst().getStatut());
+            int id_mission = Utils.getIdMission("description de la mission", missionDAO);
+            assertEquals("description de la mission", Utils.avoirToutesMissionsEnAttente(missionDAO).getLast().getDescription());
+            Utils.modifierDescriptionMission(id_mission, "nouvelle description", missionDAO);
+            assertEquals("nouvelle description", Utils.avoirToutesMissionsEnAttente(missionDAO).getLast().getDescription());
+            Utils.refuserMission(valideur, id_mission, "motif du refus", missionDAO, valideurDAO);
+            assertEquals("refusée", Utils.historiqueMissionsDemandeur(demandeur, utilisateurDAO, missionDAO).getLast().getStatut());
+
+            //Cleanup
+            Utils.supprimerUtilisateur("email@yahoo.fr","password1", utilisateurDAO);
+            Utils.supprimerValideur("email@valideur.fr","password2valideur", valideurDAO);
+            Utils.supprimerMission("nouvelle description", missionDAO);
         }
         catch (SQLException e) {
             System.out.println("[missionTestRefus] failed because of SQLException: " + e.getMessage());
@@ -108,26 +125,37 @@ class MissionTest {
             ValideurDAO valideurDAO = new ValideurDAO();
             MissionDAO missionDAO = new MissionDAO(UtilisateurDAO.getConnectionUtilisateurDAO());
 
-            Utils.enregistrerNouvelUtilisateur("nom", "prenom", "email@yahoo.fr", "adresse", "password", utilisateurDAO);
+            Utils.enregistrerNouvelUtilisateur("nom", "prenom", "email@yahoo.fr", "adresse", "password1", utilisateurDAO);
             Utilisateur demandeur = Utils.recupererUtilisateurConnecte("email@yahoo.fr", utilisateurDAO);
-            Utils.enregistrerNouvelUtilisateur("bla","bla","bla@gmail.com", "adressebla","pwd", utilisateurDAO);
+            Utils.enregistrerNouvelUtilisateur("bla","bla","bla@gmail.com", "adressebla","pwd1", utilisateurDAO);
             Utilisateur benevole = Utils.recupererUtilisateurConnecte("bla@gmail.com", utilisateurDAO);
-            Utils.enregistrerNouveauValideur("valideur", "valideur", "email@valideur.fr", "adresse_valideur", "passworddevalideur",valideurDAO);
+            Utils.enregistrerNouveauValideur("valideur", "valideur", "email@valideur.fr", "adresse_valideur", "password2valideur",valideurDAO);
             Valideur valideur = Utils.recupererValideurConnecte("email@valideur.fr", valideurDAO);
 
             //Tests
             Utils.proposerMission(benevole, "spontanee la mission", missionDAO, utilisateurDAO);
-            assertEquals("spontanee la mission", Utils.avoirToutesMissionsEnAttente(missionDAO).getFirst().getDescription());
-            Utils.validerMission(valideur, 1, missionDAO, valideurDAO);
-            assertEquals("validée", Utils.missionsEnCoursDemandeur(demandeur, utilisateurDAO, missionDAO).getFirst().getStatut());
-            assertEquals("spontanee la mission", Utils.avoirToutesMissionsSpontaneesValidees(missionDAO).getFirst().getDescription());
-            Utils.accepterMissionSpontanee(demandeur, 1, missionDAO, utilisateurDAO);
-            assertEquals("acceptée", Utils.missionsEnCoursDemandeur(demandeur, utilisateurDAO, missionDAO).getFirst().getStatut());
-            Utils.finirMission(1, missionDAO);
-            assertEquals("réalisée", Utils.historiqueMissionsBenevole(benevole, utilisateurDAO, missionDAO).getFirst().getStatut());
+            int id_mission = Utils.getIdMission("spontanee la mission", missionDAO);
+            assertEquals("spontanee la mission", Utils.avoirToutesMissionsEnAttente(missionDAO).getLast().getDescription());
+            Utils.validerMission(valideur, id_mission, missionDAO, valideurDAO);
+            List<Mission> missionsEnCoursBenevole = Utils.missionsEnCoursBenevole(benevole, utilisateurDAO, missionDAO);
+            assertEquals("validée", missionsEnCoursBenevole.getLast().getStatut());
+            assertEquals("spontanee la mission", Utils.avoirToutesMissionsSpontaneesValidees(missionDAO).getLast().getDescription());
+            Utils.accepterMissionSpontanee(demandeur, id_mission, missionDAO, utilisateurDAO);
+            assertEquals("acceptée", Utils.missionsEnCoursDemandeur(demandeur, utilisateurDAO, missionDAO).getLast().getStatut());
+            Utils.finirMission(id_mission, missionDAO);
+            assertEquals("réalisée", Utils.historiqueMissionsBenevole(benevole, utilisateurDAO, missionDAO).getLast().getStatut());
+
+            //Cleanup
+            Utils.supprimerUtilisateur("email@yahoo.fr","password1", utilisateurDAO);
+            Utils.supprimerUtilisateur("bla@gmail.com","pwd1", utilisateurDAO);
+            Utils.supprimerValideur("email@valideur.fr","password2valideur", valideurDAO);
+            Utils.supprimerMission("spontanee la mission", missionDAO);
         }
         catch (SQLException e) {
             System.out.println("[missionTestSpontanee] failed because of SQLException: " + e.getMessage());
+        }
+        catch (NoSuchElementException e){
+            System.out.println("[missionTestSpontanee] failed because of NoSuchElementException: " + e.getMessage());
         }
     }
 

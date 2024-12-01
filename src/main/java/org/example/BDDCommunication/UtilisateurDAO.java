@@ -37,12 +37,20 @@ public class UtilisateurDAO {
     }
 
     public boolean supprimerUtilisateur(int idUtilisateur) throws SQLException {
+        String sql_foreign_zero = "SET FOREIGN_KEY_CHECKS = 0";
+        PreparedStatement statement_zero = connection.prepareStatement(sql_foreign_zero);
+        statement_zero.executeUpdate();
+
         String sql = "DELETE FROM utilisateurs WHERE id_utilisateur = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setInt(1, idUtilisateur);
 
         int utilisateurTrouve = statement.executeUpdate(); //retourne le nb d'utilisateurs trouvés
-                                                            // 1 normalement car id unique, 0 s'il n'existe pas
+                                                           // 1 normalement car id unique, 0 s'il n'existe pas
+
+        String sql_foreign_one = "SET FOREIGN_KEY_CHECKS = 1";
+        PreparedStatement statement_one = connection.prepareStatement(sql_foreign_one);
+        statement_one.executeUpdate();
 
         if (utilisateurTrouve > 0) {
             System.out.println("Utilisateur supprimé avec succès.");
