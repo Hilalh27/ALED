@@ -173,6 +173,14 @@ public class Utils {
         return utilisateurDAO.trouverUtilisateurParEmail(utilisateur.getEmail());
     }
 
+    public static String getUserPrenom(int id_utilisateur) throws SQLException {
+        return UtilisateurDAO.trouverPrenomUtilisateurParId(id_utilisateur);
+    }
+
+    public static String getUserAdresse(int id_utilisateur) throws SQLException {
+        return UtilisateurDAO.trouverAdresseUtilisateurParId(id_utilisateur);
+    }
+
     // Renvoie l'id d'un valideur
     public static int getValideurId(Valideur valideur, ValideurDAO valideurDAO) throws SQLException {
         return valideurDAO.trouverValideurParEmail(valideur.getEmail());
@@ -367,21 +375,37 @@ public class Utils {
 
     public static JButton creerBouton(String text) {
         JButton button = new JButton(text);
-        button.setFont(new Font("Arial", Font.PLAIN, 22)); // Texte plus grand
-        button.setPreferredSize(new Dimension(250, 40)); // Taille fixe pour tous les boutons
-        button.setMaximumSize(new Dimension(250, 40)); // Limite de taille maximale
-        button.setMinimumSize(new Dimension(250, 40)); // Limite de taille minimale
-        button.setBackground(new Color(70, 130, 180)); // Couleur de fond bleue
-        button.setForeground(Color.WHITE); // Texte blanc
-        button.setFocusPainted(false); // Supprime le contour bleu lors du focus
-        button.setBorder(BorderFactory.createLineBorder(new Color(50, 90, 150), 2)); // Bordure fine pour un effet esthétique
-        button.setOpaque(true); // Force la peinture de l'arrière-plan
-
-        // Ajout du curseur "main" sur survol
+        button.setFont(new Font("Arial", Font.PLAIN, 22));
+        button.setPreferredSize(new Dimension(250, 40));
+        button.setMaximumSize(new Dimension(250, 40));
+        button.setMinimumSize(new Dimension(250, 40));
+        button.setBackground(new Color(70, 130, 180));
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setBorder(BorderFactory.createLineBorder(new Color(50, 90, 150), 2));
+        button.setOpaque(true);
         button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        // Ajout d'un MouseListener pour créer l'illusion de profondeur
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent e) {
+                button.setBorder(BorderFactory.createLineBorder(new Color(30, 60, 120), 2)); // Couleur plus foncée
+                button.setBackground(new Color(50, 90, 150)); // Couleur plus foncée
+                button.setLocation(button.getX() + 1, button.getY() + 1); // Déplacement léger
+            }
+
+            @Override
+            public void mouseReleased(java.awt.event.MouseEvent e) {
+                button.setBorder(BorderFactory.createLineBorder(new Color(50, 90, 150), 2)); // Couleur originale
+                button.setBackground(new Color(70, 130, 180)); // Couleur originale
+                button.setLocation(button.getX() - 1, button.getY() - 1); // Remet à la position initiale
+            }
+        });
 
         return button;
     }
+
 
 
 

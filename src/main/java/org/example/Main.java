@@ -19,7 +19,7 @@ public class Main {
 
 
 
-        UtilisateurDAO utilisateurDAO = new UtilisateurDAO();
+      UtilisateurDAO utilisateurDAO = new UtilisateurDAO();
         ValideurDAO valideurDAO = new ValideurDAO();
         MissionDAO missionDAO = new MissionDAO(UtilisateurDAO.getConnectionUtilisateurDAO());
         AvisDAO avisDAO = new AvisDAO(UtilisateurDAO.getConnectionUtilisateurDAO());
@@ -29,7 +29,7 @@ public class Main {
             Valideur valideur = Utils.recupererValideurConnecte("rglucks@lea.fr", valideurDAO);
             System.out.println(Utils.avoirToutesMissionsEnAttente(missionDAO));
             Utils.validerMission(valideur, 44, missionDAO, valideurDAO);
-            Utils.refuserMission(valideur, 2, "je refuse", missionDAO, valideurDAO);
+            Utils.validerMission(valideur, 2, missionDAO, valideurDAO);
         }
 
         VuePrincipale.lancerUI();

@@ -2,8 +2,11 @@ package org.example.InterfaceGraphique;
 
 import org.example.Utils;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 
 import static org.example.InterfaceGraphique.ConnexionScreen.connexionScreen;
@@ -96,12 +99,35 @@ public class CreationCompteScreen {
 
     public static void initCreationCompteScreen() {
 
+        Image bgImage;
+        try {
+            File imageFile = new File("src/main/resources/bg.jpg");
+            bgImage = ImageIO.read(imageFile);
+        } catch (IOException e) {
+            bgImage = null;
+            e.printStackTrace();
+        }
+
+        Image finalBgImage = bgImage;
+        creationCompteScreen = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                if (finalBgImage != null) {
+                    g.drawImage(finalBgImage, 0, 0, getWidth(), getHeight(), null);
+                }
+            }
+        };
+
+        creationCompteScreen.setLayout(new BorderLayout());
+
         // Créer le JPanel principal avec un BorderLayout
-        creationCompteScreen = new JPanel(new BorderLayout());
+        //creationCompteScreen = new JPanel(new BorderLayout());
 
         // Panneau principal pour le formulaire
         JPanel formPanel = new JPanel();
-        formPanel.setBackground(Color.WHITE); // Fond blanc pour le formulaire
+        //formPanel.setBackground(Color.WHITE); // Fond blanc pour le formulaire
+        formPanel.setOpaque(false);
         formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
 
         // Titre
@@ -164,7 +190,7 @@ public class CreationCompteScreen {
         createButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Bouton Retour discret
-        JLabel backLabel = new JLabel("<");
+        JLabel backLabel = new JLabel("  <");
         backLabel.setFont(new Font("Arial", Font.PLAIN, 24));
         backLabel.setForeground(Color.GRAY);
         backLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -199,7 +225,8 @@ public class CreationCompteScreen {
 
         // Ajouter le bouton retour en haut à gauche
         JPanel topPanel = new JPanel(new BorderLayout());
-        topPanel.setBackground(Color.WHITE);
+        //topPanel.setBackground(Color.WHITE);
+        topPanel.setOpaque(false);
         topPanel.add(backLabel, BorderLayout.WEST);
         creationCompteScreen.add(topPanel, BorderLayout.NORTH);
 
@@ -208,7 +235,8 @@ public class CreationCompteScreen {
         decoImage = Utils.redimImage(decoImage, 450, 250); // Redimensionner l'image
         JLabel decoLabel = new JLabel(decoImage);
         JPanel imagePanel = new JPanel(new BorderLayout());
-        imagePanel.setBackground(Color.WHITE);
+        //imagePanel.setBackground(Color.WHITE);
+        imagePanel.setOpaque(false);
         imagePanel.add(decoLabel, BorderLayout.SOUTH);
 
         // Ajouter l'image de déco en bas

@@ -6,8 +6,10 @@ import org.example.ClassesLocales.Utilisateur;
 import org.example.ClassesLocales.Valideur;
 import org.example.Utils;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -92,12 +94,35 @@ import java.sql.SQLException;
 
         public static void initConnexionScreen() throws IOException {
 
-            connexionScreen = new JPanel(new BorderLayout());
+            Image bgImage;
+            try {
+                File imageFile = new File("src/main/resources/bg.jpg");
+                bgImage = ImageIO.read(imageFile);
+            } catch (IOException e) {
+                bgImage = null;
+                e.printStackTrace();
+            }
 
-            connexionScreen.setBackground(Color.WHITE);
+            Image finalBgImage = bgImage;
+            connexionScreen = new JPanel() {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    if (finalBgImage != null) {
+                        g.drawImage(finalBgImage, 0, 0, getWidth(), getHeight(), null);
+                    }
+                }
+            };
+
+            connexionScreen.setLayout(new BorderLayout());
+
+            //connexionScreen = new JPanel(new BorderLayout());
+
+            //connexionScreen.setBackground(Color.WHITE);
 
             JPanel formPanel = new JPanel();
-            formPanel.setBackground(Color.WHITE);
+            //formPanel.setBackground(Color.WHITE);
+            formPanel.setOpaque(false);
             formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
 
             // Titre
@@ -157,7 +182,7 @@ import java.sql.SQLException;
             });
 
             // Bouton Retour discret
-            JLabel backLabel = new JLabel("<");
+            JLabel backLabel = new JLabel("  <");
             backLabel.setFont(new Font("Arial", Font.PLAIN, 24));
             backLabel.setForeground(Color.GRAY);
             backLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -182,14 +207,16 @@ import java.sql.SQLException;
             //formPanel.add(Box.createVerticalStrut(20));
 
             JPanel createAccountPanel = new JPanel();
-            createAccountPanel.setBackground(Color.WHITE);
+            //createAccountPanel.setBackground(Color.WHITE);
+            createAccountPanel.setOpaque(false);
             createAccountPanel.add(createAccountLabel);
             createAccountPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
             formPanel.add(createAccountPanel);
 
             // Ajouter le bouton retour
             JPanel topPanel = new JPanel(new BorderLayout());
-            topPanel.setBackground(Color.WHITE);
+            //topPanel.setBackground(Color.WHITE);
+            topPanel.setOpaque(false);
             topPanel.add(backLabel, BorderLayout.WEST);
 
             connexionScreen.add(topPanel, BorderLayout.NORTH); // Ajouter le "Retour" en haut
@@ -200,7 +227,8 @@ import java.sql.SQLException;
             decoImage = Utils.redimImage(decoImage, 550, 350);
             JLabel decoLabel = new JLabel(decoImage);
             JPanel imagePanel = new JPanel(new BorderLayout());
-            imagePanel.setBackground(Color.WHITE);
+            //imagePanel.setBackground(Color.WHITE);
+            imagePanel.setOpaque(false);
             imagePanel.add(decoLabel, BorderLayout.SOUTH);
 
             connexionScreen.add(imagePanel, BorderLayout.SOUTH);
@@ -218,6 +246,9 @@ import java.sql.SQLException;
             else{
                 utilisateur_courant = Utils.recupererUtilisateurConnecte(emailField.getText(), VuePrincipale.utilisateurDAO);
                 VuePrincipale.allerALaPage("UtilisateurScreen");
+                UtilisateurScreen.welcomeLabel.setText("Bonjour " + utilisateur_courant.getPrenom() + " !");
+                //UtilisateurScreen.initUtilisateurScreen();
+                updateMissions();
             }
         } else {
             // Si la connexion échoue, afficher un message d'erreur
@@ -261,6 +292,22 @@ import java.sql.SQLException;
             userTypeLabel.setText(SelectionScreen.isEstValideur() ? "Compte Valideur" : "Compte Utilisateur");
         }
 
+        private static void updateMissions() throws SQLException {
+            JPanel missionsAccomplirPanel = UtilisateurScreen.AfficherMissionAccomplir(
+                    "Missions que je peux accomplir",
+                    Utils.avoirToutesMissionsValidees(VuePrincipale.missionDAO)
+            );
 
+            // Section des missions spontannées (missions dont je peux en profiter)
+            JPanel missionsSpontanneesPanel = UtilisateurScreen.AfficherMissionSpontannees(
+                    "Missions dont je peux profiter",
+                    Utils.avoirToutesMissionsSpontaneesValidees(VuePrincipale.missionDAO)
+            );
+
+            UtilisateurScreen.panelMissions.removeAll();
+            UtilisateurScreen.panelMissions.add(missionsAccomplirPanel); // Le premier tableau
+            UtilisateurScreen.panelMissions.add(missionsSpontanneesPanel); // Le deuxième tableau
+            UtilisateurScreen.panelMissions.setOpaque(false);
+        }
 
 }

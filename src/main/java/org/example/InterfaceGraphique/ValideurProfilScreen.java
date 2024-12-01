@@ -1,4 +1,4 @@
 package org.example.InterfaceGraphique;
 
-public class ProfilScreen {
+public class ValideurProfilScreen {
 }

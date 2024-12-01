@@ -2,8 +2,11 @@ package org.example.InterfaceGraphique;
 
 import org.example.Utils;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 public class SelectionScreen {
 
@@ -17,13 +20,37 @@ public class SelectionScreen {
     }
 
     public static void initSelectionScreen() {
-        selectionScreen = new JPanel(new BorderLayout());
-        selectionScreen.setBackground(Color.WHITE);
+
+        Image bgImage;
+        try {
+            File imageFile = new File("src/main/resources/bg.jpg");
+            bgImage = ImageIO.read(imageFile);
+        } catch (IOException e) {
+            bgImage = null;
+            e.printStackTrace();
+        }
+
+        Image finalBgImage = bgImage;
+        selectionScreen = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                if (finalBgImage != null) {
+                    g.drawImage(finalBgImage, 0, 0, getWidth(), getHeight(), null);
+                }
+            }
+        };
+
+        selectionScreen.setLayout(new BorderLayout());
+
+        //selectionScreen = new JPanel(new BorderLayout());
+        //selectionScreen.setBackground(Color.WHITE);
 
         // Panel central pour le contenu principal
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
-        centerPanel.setBackground(Color.WHITE);
+        //centerPanel.setBackground(Color.WHITE);
+        centerPanel.setOpaque(false);
 
         // Logo
         ImageIcon logoIcon = new ImageIcon("src/main/resources/aled_logo.png");
@@ -60,7 +87,8 @@ public class SelectionScreen {
         decoLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 
         JPanel bottomPanel = new JPanel(new BorderLayout());
-        bottomPanel.setBackground(Color.WHITE);
+        //bottomPanel.setBackground(Color.WHITE);
+        bottomPanel.setOpaque(false);
         bottomPanel.add(decoLabel, BorderLayout.EAST); // Ajout de l'image à droite
 
         // Ajout des panels au screen principal

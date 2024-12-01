@@ -79,7 +79,7 @@ public class VuePrincipale  extends JFrame {
     private void showSplashScreen() {
         CardLayout cl = (CardLayout) mainPanel.getLayout();
         cl.show(mainPanel, "SplashScreen");
-        Timer timer = new Timer(3500, e -> allerALaPage("SelectionScreen"));
+        Timer timer = new Timer(2000, e -> allerALaPage("SelectionScreen"));
         timer.setRepeats(false);
         timer.start();
     }
