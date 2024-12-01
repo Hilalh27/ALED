@@ -13,74 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 
-/*public class ConnexionScreen {
-    public static JTextField emailField;
-    public static JPasswordField passwordField;
 
-    public static Utilisateur utilisateur_courant;
-    public static Valideur valideur_courant;
-
-    public static JPanel connexionScreen;
-
-    public static void initConnexionScreen () {
-        connexionScreen = new JPanel(new BorderLayout());
-        connexionScreen.setBackground(Color.WHITE);
-
-        JPanel formPanel = new JPanel();
-        formPanel.setBackground(Color.WHITE);
-        formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
-
-        JLabel emailLabel = new JLabel("Email:");
-        emailLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        emailField = new JTextField(15);
-        emailField.setMaximumSize(new Dimension(200, 25)); // Champ texte réduit
-
-        JLabel passwordLabel = new JLabel("Mot de passe:");
-        passwordLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        passwordField = new JPasswordField(15);
-        passwordField.setMaximumSize(new Dimension(200, 25)); // Champ texte réduit
-
-        JButton connexionButton = Utils.creerBouton("Se connecter");
-        connexionButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-
-        JLabel createAccountLabel = new JLabel("<html><b>Créer un nouveau compte</b></html>");
-        createAccountLabel.setForeground(Color.BLACK);
-        createAccountLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        createAccountLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        createAccountLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                VuePrincipale.allerALaPage("CreationCompteScreen");
-            }
-        });
-
-        JButton backButton = Utils.creerBouton("Retour"); // Bouton pour revenir en arrière
-        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        backButton.addActionListener(e -> VuePrincipale.allerALaPage("SelectionScreen"));
-
-        connexionButton.addActionListener(e -> {
-            try {
-                connexionButton_listener();
-            } catch (SQLException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
-
-        formPanel.add(emailLabel);
-        formPanel.add(emailField);
-        formPanel.add(Box.createVerticalStrut(10));
-        formPanel.add(passwordLabel);
-        formPanel.add(passwordField);
-        formPanel.add(Box.createVerticalStrut(15));
-        formPanel.add(connexionButton);
-        formPanel.add(Box.createVerticalStrut(15));
-        formPanel.add(createAccountLabel);
-        formPanel.add(Box.createVerticalStrut(15));
-        formPanel.add(backButton);
-
-        connexionScreen.add(formPanel, BorderLayout.CENTER);
-
-    }*/
 
     public class ConnexionScreen {
         public static JTextField emailField;
@@ -115,10 +48,6 @@ import java.sql.SQLException;
             };
 
             connexionScreen.setLayout(new BorderLayout());
-
-            //connexionScreen = new JPanel(new BorderLayout());
-
-            //connexionScreen.setBackground(Color.WHITE);
 
             JPanel formPanel = new JPanel();
             //formPanel.setBackground(Color.WHITE);
@@ -169,6 +98,18 @@ import java.sql.SQLException;
                 }
             });
 
+            // Connect with Apple :p
+/*            ImageIcon appleImage = new ImageIcon("src/main/resources/connect_Apple.png");
+            appleImage = Utils.redimImage(appleImage, 250, 40);
+            JLabel appleLabel = new JLabel(appleImage);
+            appleLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            appleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);*/
+
+            //JPanel applePanel = new JPanel(new BorderLayout());
+            //imagePanel.setBackground(Color.WHITE);
+            //applePanel.setOpaque(false);
+            //applePanel.add(appleLabel, BorderLayout.SOUTH);
+
             // Créer un compte
             JLabel createAccountLabel = new JLabel("<html><b>Créer un nouveau compte</b></html>");
             createAccountLabel.setForeground(Color.BLACK);
@@ -202,6 +143,8 @@ import java.sql.SQLException;
             formPanel.add(passwordField);
             formPanel.add(Box.createVerticalStrut(20));
             formPanel.add(connexionButton);
+/*            formPanel.add(Box.createVerticalStrut(5));
+            formPanel.add(appleLabel);*/
             formPanel.add(Box.createVerticalStrut(20));
             //formPanel.add(createAccountLabel);
             //formPanel.add(Box.createVerticalStrut(20));

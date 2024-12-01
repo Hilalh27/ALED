@@ -15,11 +15,7 @@ public class Main {
 
     public static void main(String[] args) throws SQLException {
 
-
-
-
-
-      UtilisateurDAO utilisateurDAO = new UtilisateurDAO();
+/*      UtilisateurDAO utilisateurDAO = new UtilisateurDAO();
         ValideurDAO valideurDAO = new ValideurDAO();
         MissionDAO missionDAO = new MissionDAO(UtilisateurDAO.getConnectionUtilisateurDAO());
         AvisDAO avisDAO = new AvisDAO(UtilisateurDAO.getConnectionUtilisateurDAO());
@@ -30,7 +26,7 @@ public class Main {
             System.out.println(Utils.avoirToutesMissionsEnAttente(missionDAO));
             Utils.validerMission(valideur, 44, missionDAO, valideurDAO);
             Utils.validerMission(valideur, 2, missionDAO, valideurDAO);
-        }
+        }*/
 
         VuePrincipale.lancerUI();
 

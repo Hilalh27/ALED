@@ -101,12 +101,16 @@ public class VuePrincipale  extends JFrame {
         ConnexionScreen.initConnexionScreen();
         CreationCompteScreen.initCreationCompteScreen();
         UtilisateurScreen.initUtilisateurScreen();
+        CreationMissionSpontaneeScreen.initCreerMissionSpontanneeScreen();
+        DemandeMissionScreen.initDemandeMissionScreen();
 
         mainPanel.add(SplashScreen.splashScreen, "SplashScreen");
         mainPanel.add(SelectionScreen.selectionScreen, "SelectionScreen");
         mainPanel.add(ConnexionScreen.connexionScreen, "ConnexionScreen");
         mainPanel.add(CreationCompteScreen.creationCompteScreen, "CreationCompteScreen");
         mainPanel.add(UtilisateurScreen.utilisateurScreen, "UtilisateurScreen");
+        mainPanel.add(CreationMissionSpontaneeScreen.creationMissionSpontaneeScreen, "CreationMissionSpontaneeScreen");
+        mainPanel.add(DemandeMissionScreen.demandeMissionScreen, "DemandeMissionScreen");
 
         showSplashScreen();
     }

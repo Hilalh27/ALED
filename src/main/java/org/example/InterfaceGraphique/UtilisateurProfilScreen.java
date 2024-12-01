@@ -20,6 +20,8 @@ public class UtilisateurProfilScreen extends JFrame {
     public static JPanel utilisateurProfilScreen;
     static Utilisateur utilisateur_courant;
     public static JPanel panelMissions;
+    public static JPanel mesMissionsSpontanneesPanel;
+    public static JPanel missionsDemandeesPanel;
 
     public static void initUtilisateurProfilScreen() throws SQLException {
 
@@ -114,22 +116,21 @@ public class UtilisateurProfilScreen extends JFrame {
         topPanel.add(titrePanel, BorderLayout.WEST); // Titre aligné à gauche
         topPanel.add(buttonPanel, BorderLayout.EAST); // Boutons alignés à droite
 
-        JPanel mesMissionsSpontanneesPanel = AfficherMesMissionSpontannees(
+        mesMissionsSpontanneesPanel = AfficherMesMissionSpontannees(
                 "Missions que j'ai proposées",
                 Utils.avoirToutesMissions(VuePrincipale.missionDAO)
         );
 
         // Section des missions spontannées (missions dont je peux en profiter)
-        JPanel missionsSpontanneesPanel = AfficherMesMissionsDemandees(
+        missionsDemandeesPanel = AfficherMesMissionsDemandees(
                 "Missions que j'ai demandées",
                 Utils.avoirToutesMissions(VuePrincipale.missionDAO)
         );
 
         panelMissions = new JPanel(new GridLayout(1, 2));
         panelMissions.setOpaque(false);
-        //panelMissions.removeAll();
         panelMissions.add(mesMissionsSpontanneesPanel); // Le premier tableau
-        panelMissions.add(missionsSpontanneesPanel); // Le deuxième tableau
+        panelMissions.add(missionsDemandeesPanel); // Le deuxième tableau
         panelMissions.setOpaque(false);
 
 
@@ -332,8 +333,8 @@ public class UtilisateurProfilScreen extends JFrame {
 
                 // Si acceptée, ajouter les informations du bénévole
                 if ("acceptée".equalsIgnoreCase(mission.getStatut())) {
-                    JLabel benevoleInfoLabel = new JLabel("<html><i>" + Utils.getUserAdresse(mission.getId_benevole()) + " - " +
-                            Utils.getUserMail(mission.getId_benevole()) + "</i></html>");
+                    JLabel benevoleInfoLabel = new JLabel("<html><i>" + Utils.getUserAdresse(mission.getId_benevole()).toUpperCase() + " - " +
+                            Utils.getUserMail(mission.getId_benevole()).toUpperCase() + "</i></html>");
                     benevoleInfoLabel.setFont(new Font("Arial", Font.PLAIN, 12));
                     benevoleInfoLabel.setForeground(Color.DARK_GRAY);
                     infoPanel.add(benevoleInfoLabel);

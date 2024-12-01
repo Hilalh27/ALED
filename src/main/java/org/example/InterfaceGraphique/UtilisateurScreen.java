@@ -113,6 +113,10 @@ public class UtilisateurScreen extends JFrame {
         // Bouton pour proposer une mission
         JButton proposeMissionButton = Utils.creerBouton("Proposer une Mission");
 
+        proposeMissionButton.addActionListener(e -> {
+            proposeMissionButton_listener();}
+                );
+
         JPanel buttonContainer = new JPanel(new FlowLayout(FlowLayout.CENTER));
         buttonContainer.setOpaque(false); // Rendre transparent
         buttonContainer.add(proposeMissionButton);
@@ -124,6 +128,7 @@ public class UtilisateurScreen extends JFrame {
         JPanel demandeAideButtonContainer = new JPanel(new FlowLayout(FlowLayout.CENTER));
         demandeAideButtonContainer.setOpaque(false); // Rendre transparent
         demandeAideButtonContainer.add(demandeAide);
+        demandeAide.addActionListener(e -> demandeMissionButton_listener());
 
         //contentPanel.add(Box.createVerticalStrut(20)); // Espace entre les sections
 
@@ -311,4 +316,13 @@ public class UtilisateurScreen extends JFrame {
 
         return panel;
     }
+
+private static void proposeMissionButton_listener() {
+VuePrincipale.allerALaPage("CreationMissionSpontaneeScreen");
+}
+private static void demandeMissionButton_listener()
+{
+        VuePrincipale.allerALaPage("DemandeMissionScreen");
+}
+
 }
