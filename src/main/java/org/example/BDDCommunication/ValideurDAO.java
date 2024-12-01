@@ -37,12 +37,20 @@ public class ValideurDAO {
     }
 
     public boolean supprimerValideur(int idValideur) throws SQLException {
+        String sql_foreign_zero = "SET FOREIGN_KEY_CHECKS = 0";
+        PreparedStatement statement_zero = connection.prepareStatement(sql_foreign_zero);
+        statement_zero.executeUpdate();
+
         String sql = "DELETE FROM valideurs WHERE id_valideur = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setInt(1, idValideur);
 
         int valideurTrouve = statement.executeUpdate(); //retourne le nb de valideur trouvés
         // 1 normalement car id unique, 0 s'il n'existe pas
+
+        String sql_foreign_one = "SET FOREIGN_KEY_CHECKS = 1";
+        PreparedStatement statement_one = connection.prepareStatement(sql_foreign_one);
+        statement_one.executeUpdate();
 
         if (valideurTrouve > 0) {
             System.out.println("Valideur supprimé avec succès.");

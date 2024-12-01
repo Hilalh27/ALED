@@ -31,6 +31,30 @@ public class AvisDAO {
         statement.executeUpdate();
     }
 
+    public boolean supprimerAvis(int idAvis) throws SQLException {
+        String sql_foreign_zero = "SET FOREIGN_KEY_CHECKS = 0";
+        PreparedStatement statement_zero = connection.prepareStatement(sql_foreign_zero);
+        statement_zero.executeUpdate();
+
+        String sql = "DELETE FROM avis WHERE id_avis = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, idAvis);
+
+        int avisTrouve = statement.executeUpdate(); //retourne le nb de missions trouvées
+                                                    // 1 normalement car id unique, 0 s'il n'existe pas
+
+        String sql_foreign_one = "SET FOREIGN_KEY_CHECKS = 1";
+        PreparedStatement statement_one = connection.prepareStatement(sql_foreign_one);
+        statement_one.executeUpdate();
+
+        if (avisTrouve > 0) {
+            System.out.println("Mission supprimée avec succès.");
+        } else {
+            System.out.println("Aucune mission trouvée avec cet ID."); //ne doit pas arriver
+        }
+        return avisTrouve > 0;
+    };
+
     public int trouverAvisParAuteurEtMission(int id_mission, int id_utilisateur_auteur) throws SQLException {
         String requete = "SELECT id_avis FROM avis WHERE id_utilisateur_auteur = ? AND id_mission = ?";
         PreparedStatement statement = connection.prepareStatement(requete);

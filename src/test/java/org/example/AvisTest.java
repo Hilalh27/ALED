@@ -1,12 +1,7 @@
 package org.example;
 
-import org.example.BDDCommunication.MissionDAO;
-import org.example.BDDCommunication.UtilisateurDAO;
-import org.example.BDDCommunication.ValideurDAO;
-import org.example.BDDCommunication.AvisDAO;
-import org.example.ClassesLocales.Mission;
-import org.example.ClassesLocales.Utilisateur;
-import org.example.ClassesLocales.Valideur;
+import org.example.BDDCommunication.*;
+import org.example.ClassesLocales.*;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
@@ -37,40 +32,38 @@ class AvisTest {
             MissionDAO missionDAO = new MissionDAO(UtilisateurDAO.getConnectionUtilisateurDAO());
             AvisDAO avisDAO = new AvisDAO(UtilisateurDAO.getConnectionUtilisateurDAO());
 
-            Utils.enregistrerNouvelUtilisateur("nom", "prenom", "email@yahoo.fr", "adresse", "password", utilisateurDAO);
-            Utilisateur auteur = Utils.recupererUtilisateurConnecte("email@yahoo.fr", utilisateurDAO);
-            Utils.enregistrerNouvelUtilisateur("bla","bla","bla@gmail.com", "adressebla","pwd", utilisateurDAO);
+            Utils.enregistrerNouvelUtilisateur("nom", "prenom", "email@yahoo.fr", "adresse", "password1", utilisateurDAO);
+            Utilisateur demandeur = Utils.recupererUtilisateurConnecte("email@yahoo.fr", utilisateurDAO);
+            Utils.enregistrerNouvelUtilisateur("bla","bla","bla@gmail.com", "adressebla","pwd1", utilisateurDAO);
             Utilisateur benevole = Utils.recupererUtilisateurConnecte("bla@gmail.com", utilisateurDAO);
-            Utils.enregistrerNouveauValideur("valideur", "valideur", "email@valideur.fr", "adresse_valideur", "passworddevalideur",valideurDAO);
+            Utils.enregistrerNouveauValideur("valideur", "valideur", "email@valideur.fr", "adresse_valideur", "password2valideur",valideurDAO);
             Valideur valideur = Utils.recupererValideurConnecte("email@valideur.fr", valideurDAO);
 
-            Utils.demanderMission(auteur, "mission classique", missionDAO, utilisateurDAO);
-            Utils.finirMission(1, missionDAO);
-            Mission mission = Utils.historiqueMissionsDemandeur(auteur, utilisateurDAO, missionDAO).getFirst();
+            Utils.demanderMission(demandeur, "mission classique", missionDAO, utilisateurDAO);
+            Mission mission = Utils.missionsEnCoursDemandeur(demandeur, utilisateurDAO, missionDAO).getFirst();
             int id_mission = mission.getId_mission();
+            Utils.validerMission(valideur, id_mission, missionDAO, valideurDAO);
+            Utils.accepterMissionDemandee(benevole, id_mission, missionDAO, utilisateurDAO);
+            Utils.finirMission(id_mission, missionDAO);
 
             //actual test
-            Utils.donnerAvis(id_mission, auteur, 4, "bien réalisée", utilisateurDAO, avisDAO, missionDAO);
+            Utils.donnerAvis(id_mission, demandeur, 4, "bien réalisée", utilisateurDAO, avisDAO, missionDAO);
+            Utils.donnerAvis(id_mission, benevole, 3, "trop chronophage", utilisateurDAO, avisDAO, missionDAO);
+            assertEquals("bien réalisée",Utils.recupererAvis(id_mission, "email@yahoo.fr", avisDAO, utilisateurDAO).getCommentaire());
+            assertEquals("bien réalisée", Utils.recupererLesAvisMission(id_mission, avisDAO).getFirst().getCommentaire());
+            assertEquals("trop chronophage", Utils.recupererLesAvisMission(id_mission, avisDAO).getLast().getCommentaire());
+            assertEquals("trop chronophage", Utils.recupererLesAvisAuteur("bla@gmail.com", avisDAO, utilisateurDAO).getFirst().getCommentaire());
+
+            //cleanup
+            Utils.supprimerUtilisateur("email@yahoo.fr","password1", utilisateurDAO);
+            Utils.supprimerUtilisateur("bla@gmail.com","pwd1", utilisateurDAO);
+            Utils.supprimerValideur("email@valideur.fr","password2valideur", valideurDAO);
+            Utils.supprimerAvis(id_mission, Utils.getUserId(demandeur, utilisateurDAO), avisDAO);
+            Utils.supprimerAvis(id_mission, Utils.getUserId(benevole, utilisateurDAO), avisDAO);
+            Utils.supprimerMission("mission classique", missionDAO);
         }
             catch(SQLException e) {
             System.out.println("[missionTestClassique] failed because of SQLException: " + e.getMessage());
         }
-    }
-    @Test
-    void recupererAvisTest() {
-        assertEquals(true,true);
-    }
-    @Test
-    void stockerAvisTest() {
-        assertEquals(true,true);
-    }
-
-    @Test
-    void getLesAvisMissionTest() {
-        assertEquals(true,true);
-    }
-    @Test
-    void getLesAvisAuteurTest() {
-        assertEquals(true,true);
     }
 }
