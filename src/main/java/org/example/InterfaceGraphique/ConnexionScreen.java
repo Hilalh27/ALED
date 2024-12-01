@@ -245,10 +245,12 @@ import java.sql.SQLException;
             }
             else{
                 utilisateur_courant = Utils.recupererUtilisateurConnecte(emailField.getText(), VuePrincipale.utilisateurDAO);
-                VuePrincipale.allerALaPage("UtilisateurScreen");
                 UtilisateurScreen.welcomeLabel.setText("Bonjour " + utilisateur_courant.getPrenom() + " !");
                 //UtilisateurScreen.initUtilisateurScreen();
                 updateMissions();
+                UtilisateurProfilScreen.initUtilisateurProfilScreen();
+                VuePrincipale.mainPanel.add(UtilisateurProfilScreen.utilisateurProfilScreen, "UtilisateurProfilScreen");
+                VuePrincipale.allerALaPage("UtilisateurScreen");
             }
         } else {
             // Si la connexion échoue, afficher un message d'erreur
@@ -309,5 +311,4 @@ import java.sql.SQLException;
             UtilisateurScreen.panelMissions.add(missionsSpontanneesPanel); // Le deuxième tableau
             UtilisateurScreen.panelMissions.setOpaque(false);
         }
-
 }

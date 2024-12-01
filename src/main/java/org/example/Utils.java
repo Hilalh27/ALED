@@ -181,6 +181,10 @@ public class Utils {
         return UtilisateurDAO.trouverAdresseUtilisateurParId(id_utilisateur);
     }
 
+    public static String getUserMail(int id_utilisateur) throws SQLException {
+        return UtilisateurDAO.trouverAdresseMailParId(id_utilisateur);
+    }
+
     // Renvoie l'id d'un valideur
     public static int getValideurId(Valideur valideur, ValideurDAO valideurDAO) throws SQLException {
         return valideurDAO.trouverValideurParEmail(valideur.getEmail());
@@ -189,6 +193,10 @@ public class Utils {
 
     // Methodes se rattachant à MissionDAO
     //====================================================================================//
+
+    public static List<Mission> avoirToutesMissions(MissionDAO missionDAO) throws SQLException {
+        return missionDAO.getAllMissions();
+    }
 
     // utile pour les valideurs, pour savoir quelles missions sont en attentes de validation
     public static List<Mission> avoirToutesMissionsEnAttente(MissionDAO missionDAO) throws SQLException {

@@ -95,6 +95,20 @@ public class UtilisateurDAO {
         }
     }
 
+    public static String trouverAdresseMailParId(int id) throws SQLException {
+        String sql = "SELECT email FROM utilisateurs WHERE id_utilisateur = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, String.valueOf(id));
+        ResultSet resultSet = statement.executeQuery();
+
+        if (resultSet.next()) { //si utilisateur trouvé
+            return resultSet.getString("email");
+        } else {
+            System.out.println("Aucun utilisateur trouvé avec cet id.");
+            return ""; // si aucun utilisateur n'est trouvé :(
+        }
+    }
+
     // à utiliser lors de la création d'un nouveau compte pour verifier que le mail n'existe pas avant
     // true si le mail existe, false sinon
     public boolean emailExiste(String email) throws SQLException {

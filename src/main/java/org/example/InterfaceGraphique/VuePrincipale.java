@@ -86,9 +86,11 @@ public class VuePrincipale  extends JFrame {
 
     public VuePrincipale() throws SQLException, IOException {
         setTitle("ALED Application");
+        ImageIcon appIcon = new ImageIcon("src/main/resources/icons/app_icon.png");
+        this.setIconImage(appIcon.getImage());
         //setSize(400, 300);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setMinimumSize(new Dimension(800, 850));
+        setMinimumSize(new Dimension(850, 850));
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainPanel = new JPanel(new CardLayout());

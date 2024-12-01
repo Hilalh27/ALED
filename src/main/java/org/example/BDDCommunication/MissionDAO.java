@@ -228,6 +228,29 @@ public class MissionDAO {
         return missions;
     }
 
+    public List<Mission> getAllMissions() throws SQLException {
+        List<Mission> missions = new ArrayList<>();
+        String sql = "SELECT id_mission, statut, description, id_demandeur, id_benevole, id_valideur, motif_refus, date_mission " +
+                "FROM missions";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        ResultSet resultSet = statement.executeQuery();
+
+        while (resultSet.next()) {
+            int id_demandeur = resultSet.getInt("id_demandeur");
+            int id_mission = resultSet.getInt("id_mission");
+            String statut = resultSet.getString("statut");
+            String description = resultSet.getString("description");
+            int idBenevole = resultSet.getInt("id_benevole");
+            int idValideur = resultSet.getInt("id_valideur");
+            String motif_refus = resultSet.getString("motif_refus");
+            java.sql.Date date = resultSet.getDate("date_mission");
+
+            Mission mission = new Mission(id_mission, statut, description, id_demandeur, idBenevole, idValideur, motif_refus, date);
+            missions.add(mission);
+        }
+        return missions;
+    }
+
     // utile pour le demandeur : "mon historique de missions demandées"
     public List<Mission> getMissionsPasseesDemandeur(int id_demandeur) throws SQLException {
         List<Mission> missions = new ArrayList<>();

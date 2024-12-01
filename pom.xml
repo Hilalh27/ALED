@@ -39,13 +39,14 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass> org.example.Main</mainClass>
+                            <mainClass>org.example.Main</mainClass> <!-- Assurez-vous que cette classe Main existe -->
                         </manifest>
                     </archive>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+
 
 
 

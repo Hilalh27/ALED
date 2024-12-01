@@ -77,6 +77,7 @@ public class UtilisateurScreen extends JFrame {
         profilButton.setForeground(Color.BLACK);
         profilButton.setFocusable(false);
         profilButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        profilButton.addActionListener(e -> VuePrincipale.allerALaPage("UtilisateurProfilScreen"));
 
 
         // Bouton "Se Déconnecter"
@@ -93,7 +94,10 @@ public class UtilisateurScreen extends JFrame {
         logoutButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         logoutButton.addActionListener(e -> { VuePrincipale.allerALaPage("SelectionScreen");
                     JOptionPane.showMessageDialog(connexionScreen, "Vous avez été déconnecté.",
-                            "Déconnexion", JOptionPane.INFORMATION_MESSAGE);});
+                            "Déconnexion", JOptionPane.INFORMATION_MESSAGE);
+                    UtilisateurProfilScreen.panelMissions.removeAll();
+            ConnexionScreen.utilisateur_courant = null;
+            ConnexionScreen.valideur_courant = null;});
 
         buttonPanel.add(profilButton);
         buttonPanel.add(logoutButton);
@@ -149,7 +153,6 @@ public class UtilisateurScreen extends JFrame {
         utilisateurScreen.add(topPanel, BorderLayout.NORTH);
         utilisateurScreen.add(contentPanel, BorderLayout.CENTER);
         utilisateurScreen.add(decoLabel, BorderLayout.SOUTH);
-
         utilisateurScreen.setVisible(true);
     }
 
