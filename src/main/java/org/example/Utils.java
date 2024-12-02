@@ -383,6 +383,7 @@ public class Utils {
         Image img = icon.getImage();
         Image scaledImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         return new ImageIcon(scaledImg);
+        //test
     }
 
     // bouton avec style
