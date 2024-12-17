@@ -265,26 +265,30 @@ public class Utils {
     }
 
     // Benevole qui accepte de faire une mission
-    public static void accepterMissionDemandee(Utilisateur benevole, int id_mission, MissionDAO missionDAO, UtilisateurDAO utilisateurDAO) throws SQLException {
+    public static boolean accepterMissionDemandee(Utilisateur benevole, int id_mission, MissionDAO missionDAO, UtilisateurDAO utilisateurDAO) throws SQLException {
         if (Objects.equals(missionDAO.getStatutMission(id_mission), "validée")) {
             int id_benevole = getUserId(benevole, utilisateurDAO);
             missionDAO.ajouterBenevole(id_benevole, id_mission);
             missionDAO.majStatutMission(id_mission, "acceptée");
+            return true;
         }
         else{
             System.out.println("Impossible d'accepter une mission non validée");
+            return false;
         }
     }
 
     // Demandeur qui accepte une mission spontanéee proposée
-    public static void accepterMissionSpontanee(Utilisateur demandeur, int id_mission, MissionDAO missionDAO, UtilisateurDAO utilisateurDAO) throws SQLException {
+    public static boolean accepterMissionSpontanee(Utilisateur demandeur, int id_mission, MissionDAO missionDAO, UtilisateurDAO utilisateurDAO) throws SQLException {
         if (Objects.equals(missionDAO.getStatutMission(id_mission), "validée")) {
             int id_demandeur = getUserId(demandeur, utilisateurDAO);
             missionDAO.ajouterDemandeur(id_demandeur, id_mission);
             missionDAO.majStatutMission(id_mission, "acceptée");
+            return true;
         }
         else{
             System.out.println("Impossible d'accepter une mission non validée");
+            return false;
         }
 
     }

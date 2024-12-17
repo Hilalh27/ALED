@@ -237,7 +237,7 @@ import java.sql.SQLException;
             userTypeLabel.setText(SelectionScreen.isEstValideur() ? "Compte Valideur" : "Compte Utilisateur");
         }
 
-        private static void updateMissions() throws SQLException {
+        public static void updateMissions() throws SQLException {
             JPanel missionsAccomplirPanel = UtilisateurScreen.AfficherMissionAccomplir(
                     "Missions que je peux accomplir",
                     Utils.avoirToutesMissionsValidees(VuePrincipale.missionDAO)

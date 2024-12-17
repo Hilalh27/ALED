@@ -243,6 +243,30 @@ public class UtilisateurProfilScreen extends JFrame {
                     infoPanel.add(leaveReviewButton);
                 }
 
+                // Si acceptée, possibilité de finir mission
+                if ("acceptée".equalsIgnoreCase(mission.getStatut())) {
+                    // Ajouter le bouton "Finir la mission" pour les missions réalisées
+                    JButton finishMission = new JButton("Finir la mission !");
+                    finishMission.setFont(new Font("Arial", Font.BOLD, 12));
+                    finishMission.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+                    // Action lors du clic sur le bouton
+                    finishMission.addActionListener(e -> {
+                        try {
+                            Utils.finirMission(mission.getId_mission(), VuePrincipale.missionDAO);
+                        } catch (SQLException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        try {
+                            ConnexionScreen.updateMissions();
+                        } catch (SQLException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        VuePrincipale.mainPanel.revalidate();
+                    });
+                    infoPanel.add(finishMission);
+                }
+
                 // Ajouter les composants dans la carte
                 missionCard.add(infoPanel, BorderLayout.CENTER);
 

@@ -289,7 +289,13 @@ public class UtilisateurScreen extends JFrame {
                 JButton enProfiterButton = new JButton("En profiter !");
                 enProfiterButton.setFocusable(false);
                 enProfiterButton.setFont(new Font("Arial", Font.BOLD, 12));
-                enProfiterButton.addActionListener(e -> System.out.println("Mission ID : " + mission.getId_mission()));
+                enProfiterButton.addActionListener(e -> {
+                    try {
+                        profiterMission(mission.getId_mission());
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                });
                 enProfiterButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
                 // Ajouter les composants dans la carte
@@ -324,5 +330,41 @@ private static void demandeMissionButton_listener()
 {
         VuePrincipale.allerALaPage("DemandeMissionScreen");
 }
-//tt
+
+
+private static void profiterMission(int id_mission) throws SQLException {
+    if (Utils.accepterMissionSpontanee(utilisateur_courant, id_mission, VuePrincipale.missionDAO, VuePrincipale.utilisateurDAO))
+    {
+        JOptionPane.showMessageDialog(null,
+                "La mission a été acceptée avec succès !",
+                "Confirmation",
+                JOptionPane.INFORMATION_MESSAGE);
+        ConnexionScreen.updateMissions();
+        VuePrincipale.mainPanel.revalidate();
+    }
+    else {
+        JOptionPane.showMessageDialog(null,
+                "Impossible d'accepter la mission.",
+                "Erreur",
+                JOptionPane.ERROR_MESSAGE);
+    }
+}
+
+    private static void  aiderMission(int id_mission) throws SQLException {
+        if (Utils.accepterMissionDemandee(utilisateur_courant, id_mission, VuePrincipale.missionDAO, VuePrincipale.utilisateurDAO))
+        {
+            JOptionPane.showMessageDialog(null,
+                    "La mission a été acceptée avec succès !",
+                    "Confirmation",
+                    JOptionPane.INFORMATION_MESSAGE);
+            ConnexionScreen.updateMissions();
+            VuePrincipale.mainPanel.revalidate();
+        }
+        else {
+            JOptionPane.showMessageDialog(null,
+                    "Impossible d'accepter la mission.",
+                    "Erreur",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
 }
