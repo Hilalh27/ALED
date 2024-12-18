@@ -54,14 +54,19 @@ class MissionTest {
             //Test
             Utils.demanderMission(demandeur, "mission classique", missionDAO, utilisateurDAO);
             int id_mission = Utils.getIdMission("mission classique", missionDAO);
-            assertEquals("mission classique", Utils.avoirToutesMissionsEnAttente(missionDAO).getLast().getDescription());
+            List<Mission> toutesMissionsEnAttente = Utils.avoirToutesMissionsEnAttente(missionDAO);
+            assertEquals("mission classique", toutesMissionsEnAttente.get(toutesMissionsEnAttente.size()-1).getDescription());
             Utils.validerMission(valideur, id_mission, missionDAO, valideurDAO);
-            assertEquals("validée", Utils.missionsEnCoursDemandeur(demandeur, utilisateurDAO, missionDAO).getLast().getStatut());
-            assertEquals("mission classique", Utils.avoirToutesMissionsValidees(missionDAO).getLast().getDescription());
+            List<Mission> missionsEnCoursDemandeur = Utils.missionsEnCoursDemandeur(demandeur, utilisateurDAO, missionDAO);
+            assertEquals("validée", missionsEnCoursDemandeur.get(missionsEnCoursDemandeur.size()-1).getStatut());
+            List<Mission> toutesMissionsValidees = Utils.avoirToutesMissionsValidees(missionDAO);
+            assertEquals("mission classique", toutesMissionsValidees.get(toutesMissionsValidees.size()-1).getDescription());
             Utils.accepterMissionDemandee(benevole, id_mission, missionDAO, utilisateurDAO);
-            assertEquals("acceptée", Utils.missionsEnCoursBenevole(benevole, utilisateurDAO, missionDAO).getLast().getStatut());
+            List<Mission> missionsEnCoursBenevole = Utils.missionsEnCoursBenevole(benevole, utilisateurDAO, missionDAO);
+            assertEquals("acceptée", missionsEnCoursBenevole.get(missionsEnCoursBenevole.size()-1).getStatut());
             Utils.finirMission(id_mission, missionDAO);
-            assertEquals("réalisée", Utils.historiqueMissionsBenevole(benevole, utilisateurDAO, missionDAO).getLast().getStatut());
+            List<Mission> historiqueMissionsBenevole = Utils.historiqueMissionsBenevole(benevole, utilisateurDAO, missionDAO);
+            assertEquals("réalisée", historiqueMissionsBenevole.get(historiqueMissionsBenevole.size()-1).getStatut());
 
             // clean up
             Utils.supprimerUtilisateur("email@yahoo.fr","password1", utilisateurDAO);
@@ -96,11 +101,14 @@ class MissionTest {
             //Tests
             Utils.demanderMission(demandeur, "description de la mission", missionDAO, utilisateurDAO);
             int id_mission = Utils.getIdMission("description de la mission", missionDAO);
-            assertEquals("description de la mission", Utils.avoirToutesMissionsEnAttente(missionDAO).getLast().getDescription());
+            List<Mission> toutesMissionsEnAttente = Utils.avoirToutesMissionsEnAttente(missionDAO);
+            assertEquals("description de la mission", toutesMissionsEnAttente.get(toutesMissionsEnAttente.size()-1).getDescription());
             Utils.modifierDescriptionMission(id_mission, "nouvelle description", missionDAO);
-            assertEquals("nouvelle description", Utils.avoirToutesMissionsEnAttente(missionDAO).getLast().getDescription());
+            toutesMissionsEnAttente = Utils.avoirToutesMissionsEnAttente(missionDAO);
+            assertEquals("nouvelle description", toutesMissionsEnAttente.get(toutesMissionsEnAttente.size()-1).getDescription());
             Utils.refuserMission(valideur, id_mission, "motif du refus", missionDAO, valideurDAO);
-            assertEquals("refusée", Utils.historiqueMissionsDemandeur(demandeur, utilisateurDAO, missionDAO).getLast().getStatut());
+            List<Mission> historiqueMissionsDemandeur = Utils.historiqueMissionsDemandeur(demandeur, utilisateurDAO, missionDAO);
+            assertEquals("refusée", historiqueMissionsDemandeur.get(historiqueMissionsDemandeur.size()-1).getStatut());
 
             //Cleanup
             Utils.supprimerUtilisateur("email@yahoo.fr","password1", utilisateurDAO);
@@ -135,15 +143,19 @@ class MissionTest {
             //Tests
             Utils.proposerMission(benevole, "spontanee la mission", missionDAO, utilisateurDAO);
             int id_mission = Utils.getIdMission("spontanee la mission", missionDAO);
-            assertEquals("spontanee la mission", Utils.avoirToutesMissionsEnAttente(missionDAO).getLast().getDescription());
+            List<Mission> toutesMissionsEnAttente = Utils.avoirToutesMissionsEnAttente(missionDAO);
+            assertEquals("spontanee la mission", toutesMissionsEnAttente.get(toutesMissionsEnAttente.size()-1).getDescription());
             Utils.validerMission(valideur, id_mission, missionDAO, valideurDAO);
             List<Mission> missionsEnCoursBenevole = Utils.missionsEnCoursBenevole(benevole, utilisateurDAO, missionDAO);
-            assertEquals("validée", missionsEnCoursBenevole.getLast().getStatut());
-            assertEquals("spontanee la mission", Utils.avoirToutesMissionsSpontaneesValidees(missionDAO).getLast().getDescription());
+            assertEquals("validée", missionsEnCoursBenevole.get(missionsEnCoursBenevole.size()-1).getStatut());
+            List<Mission> toutesMissionsSpontaneesValidees = Utils.avoirToutesMissionsSpontaneesValidees(missionDAO); 
+            assertEquals("spontanee la mission", toutesMissionsSpontaneesValidees.get(toutesMissionsSpontaneesValidees.size()-1).getDescription());
             Utils.accepterMissionSpontanee(demandeur, id_mission, missionDAO, utilisateurDAO);
-            assertEquals("acceptée", Utils.missionsEnCoursDemandeur(demandeur, utilisateurDAO, missionDAO).getLast().getStatut());
+            List<Mission> missionsEnCoursDemandeur = Utils.missionsEnCoursDemandeur(demandeur, utilisateurDAO, missionDAO);
+            assertEquals("acceptée", missionsEnCoursDemandeur.get(missionsEnCoursDemandeur.size()-1).getStatut());
             Utils.finirMission(id_mission, missionDAO);
-            assertEquals("réalisée", Utils.historiqueMissionsBenevole(benevole, utilisateurDAO, missionDAO).getLast().getStatut());
+            List<Mission> historiqueMissionsBenevole = Utils.historiqueMissionsBenevole(benevole, utilisateurDAO, missionDAO);
+            assertEquals("réalisée", historiqueMissionsBenevole.get(historiqueMissionsBenevole.size()-1).getStatut());
 
             //Cleanup
             Utils.supprimerUtilisateur("email@yahoo.fr","password1", utilisateurDAO);

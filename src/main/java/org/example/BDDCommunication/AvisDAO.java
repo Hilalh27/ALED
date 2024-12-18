@@ -48,9 +48,9 @@ public class AvisDAO {
         statement_one.executeUpdate();
 
         if (avisTrouve > 0) {
-            System.out.println("Mission supprimée avec succès.");
+            System.out.println("Avis supprimé avec succès.");
         } else {
-            System.out.println("Aucune mission trouvée avec cet ID."); //ne doit pas arriver
+            System.out.println("Aucun avis trouvé avec cet ID."); //ne doit pas arriver
         }
         return avisTrouve > 0;
     };

@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
 import java.util.Objects;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -40,7 +41,7 @@ class AvisTest {
             Valideur valideur = Utils.recupererValideurConnecte("email@valideur.fr", valideurDAO);
 
             Utils.demanderMission(demandeur, "mission classique", missionDAO, utilisateurDAO);
-            Mission mission = Utils.missionsEnCoursDemandeur(demandeur, utilisateurDAO, missionDAO).getFirst();
+            Mission mission = Utils.missionsEnCoursDemandeur(demandeur, utilisateurDAO, missionDAO).get(0);
             int id_mission = mission.getId_mission();
             Utils.validerMission(valideur, id_mission, missionDAO, valideurDAO);
             Utils.accepterMissionDemandee(benevole, id_mission, missionDAO, utilisateurDAO);
@@ -50,16 +51,17 @@ class AvisTest {
             Utils.donnerAvis(id_mission, demandeur, 4, "bien réalisée", utilisateurDAO, avisDAO, missionDAO);
             Utils.donnerAvis(id_mission, benevole, 3, "trop chronophage", utilisateurDAO, avisDAO, missionDAO);
             assertEquals("bien réalisée",Utils.recupererAvis(id_mission, "email@yahoo.fr", avisDAO, utilisateurDAO).getCommentaire());
-            assertEquals("bien réalisée", Utils.recupererLesAvisMission(id_mission, avisDAO).getFirst().getCommentaire());
-            assertEquals("trop chronophage", Utils.recupererLesAvisMission(id_mission, avisDAO).getLast().getCommentaire());
-            assertEquals("trop chronophage", Utils.recupererLesAvisAuteur("bla@gmail.com", avisDAO, utilisateurDAO).getFirst().getCommentaire());
+            assertEquals("bien réalisée", Utils.recupererLesAvisMission(id_mission, avisDAO).get(0).getCommentaire());
+            List<Avis> avisMission = Utils.recupererLesAvisMission(id_mission, avisDAO);
+            assertEquals("trop chronophage", avisMission.get(avisMission.size()-1).getCommentaire());
+            assertEquals("trop chronophage", Utils.recupererLesAvisAuteur("bla@gmail.com", avisDAO, utilisateurDAO).get(0).getCommentaire());
 
             //cleanup
+            Utils.supprimerAvis(id_mission, Utils.getUserId(demandeur, utilisateurDAO), avisDAO);
+            Utils.supprimerAvis(id_mission, Utils.getUserId(benevole, utilisateurDAO), avisDAO);
             Utils.supprimerUtilisateur("email@yahoo.fr","password1", utilisateurDAO);
             Utils.supprimerUtilisateur("bla@gmail.com","pwd1", utilisateurDAO);
             Utils.supprimerValideur("email@valideur.fr","password2valideur", valideurDAO);
-            Utils.supprimerAvis(id_mission, Utils.getUserId(demandeur, utilisateurDAO), avisDAO);
-            Utils.supprimerAvis(id_mission, Utils.getUserId(benevole, utilisateurDAO), avisDAO);
             Utils.supprimerMission("mission classique", missionDAO);
         }
             catch(SQLException e) {
