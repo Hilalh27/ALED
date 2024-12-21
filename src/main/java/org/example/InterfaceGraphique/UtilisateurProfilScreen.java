@@ -1,5 +1,6 @@
 package org.example.InterfaceGraphique;
 
+import org.example.ClassesLocales.Avis;
 import org.example.ClassesLocales.Mission;
 import org.example.ClassesLocales.Utilisateur;
 import org.example.Utils;
@@ -128,7 +129,6 @@ public class UtilisateurProfilScreen extends JFrame {
         );
 
         panelMissions = new JPanel(new GridLayout(1, 2));
-        panelMissions.setOpaque(false);
         panelMissions.add(mesMissionsSpontanneesPanel); // Le premier tableau
         panelMissions.add(missionsDemandeesPanel); // Le deuxième tableau
         panelMissions.setOpaque(false);
@@ -215,36 +215,16 @@ public class UtilisateurProfilScreen extends JFrame {
                     motifLabel.setForeground(Color.DARK_GRAY);
                     infoPanel.add(motifLabel);
                 }
+                System.out.println("Statut de la mission : " + mission.getStatut());
 
-                // Si acceptée, ajouter le motif du refus
+                // Si acceptée, ajouter les coordonnées du bénévole et possibilité de finir mission
                 if ("acceptée".equalsIgnoreCase(mission.getStatut())) {
+                    System.out.println("Mission acceptee " + mission.getId_mission());
                     JLabel acceptLabel = new JLabel("<html><i>" + Utils.getUserAdresse(mission.getId_demandeur()).toUpperCase() + " - " + Utils.getUserMail(mission.getId_demandeur()).toUpperCase() + "</i></html>");
                     acceptLabel.setFont(new Font("Arial", Font.PLAIN, 12));
                     acceptLabel.setForeground(Color.DARK_GRAY);
                     infoPanel.add(acceptLabel);
-                }
 
-                // Si réalisée, donner un avis
-                if ("réalisée".equalsIgnoreCase(mission.getStatut())) {
-                    // Ajouter le bouton "Laisser un avis !" pour les missions réalisées
-                    JButton leaveReviewButton = new JButton("Laisser un avis !");
-                    leaveReviewButton.setFont(new Font("Arial", Font.BOLD, 12));
-                    //leaveReviewButton.setForeground(Color.WHITE);
-                    //leaveReviewButton.setBackground(new Color(0, 128, 255)); // Bleu
-                    leaveReviewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                    //leaveReviewButton.setOpaque(true);
-                    //leaveReviewButton.setBorderPainted(false);
-
-                    // Action lors du clic sur le bouton
-                    leaveReviewButton.addActionListener(e -> {
-                        // Afficher l'ID de la mission dans les logs
-                        System.out.println("Mission ID pour avis: " + mission.getId_mission());
-                    });
-                    infoPanel.add(leaveReviewButton);
-                }
-
-                // Si acceptée, possibilité de finir mission
-                if ("acceptée".equalsIgnoreCase(mission.getStatut())) {
                     // Ajouter le bouton "Finir la mission" pour les missions réalisées
                     JButton finishMission = new JButton("Finir la mission !");
                     finishMission.setFont(new Font("Arial", Font.BOLD, 12));
@@ -258,7 +238,7 @@ public class UtilisateurProfilScreen extends JFrame {
                             throw new RuntimeException(ex);
                         }
                         try {
-                            ConnexionScreen.updateMissions();
+                            updateMissions();
                         } catch (SQLException ex) {
                             throw new RuntimeException(ex);
                         }
@@ -266,6 +246,112 @@ public class UtilisateurProfilScreen extends JFrame {
                     });
                     infoPanel.add(finishMission);
                 }
+
+                System.out.println("Statut de la mission1 : " + mission.getStatut());
+                // Si réalisée, donner un avis
+                if ("réalisée".equalsIgnoreCase(mission.getStatut())) {
+
+                    // Récupérer et afficher les avis existants
+                    try {
+                        List<Avis> avisList = Utils.recupererLesAvisMission(mission.getId_mission(), VuePrincipale.avisDAO);
+                        for (Avis avis : avisList) {
+                            JPanel avisPanel = new JPanel();
+                            avisPanel.setLayout(new BoxLayout(avisPanel, BoxLayout.Y_AXIS));
+                            avisPanel.setOpaque(false);
+
+                            // Ajouter la note et le commentaire
+                            JLabel noteLabel = new JLabel("Note : " + avis.getNote() + "/5");
+                            JLabel commentaireLabel = new JLabel("<html><i>" + avis.getCommentaire() + "</i></html>");
+                            JLabel sepLabel = new JLabel("-----");
+
+                            // Afficher le nom de l'auteur de l'avis
+                            String auteur = Utils.getUserPrenom(avis.getId_utilisateur_auteur());
+                            JLabel auteurLabel = new JLabel("Par : " + auteur);
+
+                            avisPanel.add(auteurLabel);
+                            avisPanel.add(noteLabel);
+                            avisPanel.add(commentaireLabel);
+                            avisPanel.add(sepLabel);
+                            infoPanel.add(avisPanel);
+                            //missionsPanel.add(Box.createVerticalStrut(2)); // Espacement réduit entre les avis
+                        }
+                    } catch (SQLException ex) {
+                    }
+
+                    // Ajouter le bouton "Laisser un avis !" pour les missions réalisées
+                    JButton leaveReviewButton = new JButton("Laisser un avis !");
+                    leaveReviewButton.setFont(new Font("Arial", Font.BOLD, 12));
+                    leaveReviewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+                    // Action lors du clic sur le bouton
+                    leaveReviewButton.addActionListener(e -> {
+                        // Afficher l'ID de la mission dans les logs
+                        try {
+                            showAvisDialog(Utils.getMissionFromId(mission.getId_mission()));
+                        } catch (SQLException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        try {
+                            updateMissions();
+                        } catch (SQLException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        System.out.println("Mission ID pour avis: " + mission.getId_mission());
+                    });
+
+                    infoPanel.add(leaveReviewButton);
+                }
+
+                // Si réalisée, donner un avis et afficher les avis existants
+                if ("réalisée".equalsIgnoreCase(mission.getStatut())) {
+                    // Ajouter le bouton "Laisser un avis !" pour les missions réalisées
+                    JButton leaveReviewButton = new JButton("Laisser un avis !");
+                    leaveReviewButton.setFont(new Font("Arial", Font.BOLD, 12));
+                    leaveReviewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+                    // Action lors du clic sur le bouton
+                    leaveReviewButton.addActionListener(e -> {
+                        // Afficher une fenêtre pour saisir un avis
+                        try {
+                            showAvisDialog(mission);
+                        } catch (SQLException ex) {
+                            throw new RuntimeException(ex);
+                        }
+
+                        try {
+                            updateMissions();
+                        } catch (SQLException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    });
+                    infoPanel.add(leaveReviewButton);
+
+                    // Récupérer et afficher les avis existants
+                    try {
+                        List<Avis> avisList = Utils.recupererLesAvisMission(mission.getId_mission(), VuePrincipale.avisDAO);
+                        for (Avis avis : avisList) {
+                            JPanel avisPanel = new JPanel();
+                            avisPanel.setLayout(new BoxLayout(avisPanel, BoxLayout.Y_AXIS));
+                            avisPanel.setOpaque(false);
+
+                            // Ajouter la note et le commentaire
+                            JLabel noteLabel = new JLabel("Note : " + avis.getNote() + "/5");
+                            JLabel commentaireLabel = new JLabel("<html><i>" + avis.getCommentaire() + "</i></html>");
+
+                            // Afficher le nom de l'auteur de l'avis
+                            String auteur = Utils.getUserPrenom(avis.getId_utilisateur_auteur());
+                            JLabel auteurLabel = new JLabel("Par : " + auteur);
+
+                            avisPanel.add(auteurLabel);
+                            avisPanel.add(noteLabel);
+                            avisPanel.add(commentaireLabel);
+                            missionsPanel.add(avisPanel);
+                            missionsPanel.add(Box.createVerticalStrut(2)); // Espacement réduit entre les avis
+                        }
+                    } catch (SQLException ex) {
+                    }
+                }
+
 
                 // Ajouter les composants dans la carte
                 missionCard.add(infoPanel, BorderLayout.CENTER);
@@ -355,29 +441,78 @@ public class UtilisateurProfilScreen extends JFrame {
                 infoPanel.add(dateLabel);
                 infoPanel.add(statutLabel);
 
-                // Si acceptée, ajouter les informations du bénévole
+                // Si acceptée, ajouter les coordonnées du bénévole et possibilité de finir mission
                 if ("acceptée".equalsIgnoreCase(mission.getStatut())) {
-                    JLabel benevoleInfoLabel = new JLabel("<html><i>" + Utils.getUserAdresse(mission.getId_benevole()).toUpperCase() + " - " +
-                            Utils.getUserMail(mission.getId_benevole()).toUpperCase() + "</i></html>");
-                    benevoleInfoLabel.setFont(new Font("Arial", Font.PLAIN, 12));
-                    benevoleInfoLabel.setForeground(Color.DARK_GRAY);
-                    infoPanel.add(benevoleInfoLabel);
+                    JLabel acceptLabel = new JLabel("<html><i>" + Utils.getUserAdresse(mission.getId_demandeur()).toUpperCase() + " - " + Utils.getUserMail(mission.getId_demandeur()).toUpperCase() + "</i></html>");
+                    acceptLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+                    acceptLabel.setForeground(Color.DARK_GRAY);
+                    infoPanel.add(acceptLabel);
+
+                    // Ajouter le bouton "Finir la mission" pour les missions réalisées
+                    JButton finishMission = new JButton("Finir la mission !");
+                    finishMission.setFont(new Font("Arial", Font.BOLD, 12));
+                    finishMission.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+                    // Action lors du clic sur le bouton
+                    finishMission.addActionListener(e -> {
+                        try {
+                            Utils.finirMission(mission.getId_mission(), VuePrincipale.missionDAO);
+                        } catch (SQLException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        try {
+                            updateMissions();
+                        } catch (SQLException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        VuePrincipale.mainPanel.revalidate();
+                    });
+                    infoPanel.add(finishMission);
                 }
 
                 // Si réalisée, donner un avis
                 if ("réalisée".equalsIgnoreCase(mission.getStatut())) {
+
+                    // Récupérer et afficher les avis existants
+                    try {
+                        List<Avis> avisList = Utils.recupererLesAvisMission(mission.getId_mission(), VuePrincipale.avisDAO);
+                        for (Avis avis : avisList) {
+                            JPanel avisPanel = new JPanel();
+                            avisPanel.setLayout(new BoxLayout(avisPanel, BoxLayout.Y_AXIS));
+                            avisPanel.setOpaque(false);
+
+                            // Ajouter la note et le commentaire
+                            JLabel noteLabel = new JLabel("Note : " + avis.getNote() + "/5");
+                            JLabel commentaireLabel = new JLabel("<html><i>" + avis.getCommentaire() + "</i></html>");
+                            JLabel sepLabel = new JLabel("-----");
+
+                            // Afficher le nom de l'auteur de l'avis
+                            String auteur = Utils.getUserPrenom(avis.getId_utilisateur_auteur());
+                            JLabel auteurLabel = new JLabel("Par : " + auteur);
+
+                            avisPanel.add(auteurLabel);
+                            avisPanel.add(noteLabel);
+                            avisPanel.add(commentaireLabel);
+                            avisPanel.add(sepLabel);
+                            infoPanel.add(avisPanel);
+                            //missionsPanel.add(Box.createVerticalStrut(2)); // Espacement réduit entre les avis
+                        }
+                    } catch (SQLException ex) {
+                    }
+
                     // Ajouter le bouton "Laisser un avis !" pour les missions réalisées
                     JButton leaveReviewButton = new JButton("Laisser un avis !");
                     leaveReviewButton.setFont(new Font("Arial", Font.BOLD, 12));
-                    //leaveReviewButton.setForeground(Color.WHITE);
-                    //leaveReviewButton.setBackground(new Color(0, 128, 255)); // Bleu
                     leaveReviewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                    //leaveReviewButton.setOpaque(true);
-                    //leaveReviewButton.setBorderPainted(false);
 
                     // Action lors du clic sur le bouton
                     leaveReviewButton.addActionListener(e -> {
                         // Afficher l'ID de la mission dans les logs
+                        try {
+                            showAvisDialog(mission);
+                        } catch (SQLException ex) {
+                            throw new RuntimeException(ex);
+                        }
                         System.out.println("Mission ID pour avis: " + mission.getId_mission());
                     });
                     infoPanel.add(leaveReviewButton);
@@ -403,7 +538,70 @@ public class UtilisateurProfilScreen extends JFrame {
 
         return panel;
     }
+    public static void updateMissions() throws SQLException {
+        UtilisateurProfilScreen.mesMissionsSpontanneesPanel = UtilisateurProfilScreen.AfficherMesMissionSpontannees(
+                "Missions que j'ai proposées",
+                Utils.avoirToutesMissions(VuePrincipale.missionDAO)
+        );
+
+        // Section des missions spontannées (missions dont je peux en profiter)
+        UtilisateurProfilScreen.missionsDemandeesPanel = UtilisateurProfilScreen.AfficherMesMissionsDemandees(
+                "Missions que j'ai demandées",
+                Utils.avoirToutesMissions(VuePrincipale.missionDAO)
+        );
+
+        UtilisateurProfilScreen.panelMissions.removeAll();
+        UtilisateurProfilScreen.panelMissions.add(UtilisateurProfilScreen.mesMissionsSpontanneesPanel); // Le premier tableau
+        UtilisateurProfilScreen.panelMissions.add(UtilisateurProfilScreen.missionsDemandeesPanel); // Le deuxième tableau
+        UtilisateurProfilScreen.panelMissions.setOpaque(false);
+        UtilisateurProfilScreen.panelMissions.revalidate();
+    }
+
+    // Afficher la fenêtre de dialogue pour saisir un avis
+    public static void showAvisDialog(Mission mission) throws SQLException {
+        System.out.println("laisse aviss");
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        // Demander la note
+        JLabel noteLabel = new JLabel("Note (sur 5) :");
+        JTextField noteField = new JTextField(1);
+        panel.add(noteLabel);
+        panel.add(noteField);
+
+        // Demander le commentaire
+        JLabel commentaireLabel = new JLabel("Commentaire :");
+        JTextArea commentaireField = new JTextArea(3, 20);
+        JScrollPane scrollPane = new JScrollPane(commentaireField);
+        panel.add(commentaireLabel);
+        panel.add(scrollPane);
+
+        // Créer le bouton pour soumettre l'avis
+        int option = JOptionPane.showConfirmDialog(null, panel, "Laisser un avis", JOptionPane.OK_CANCEL_OPTION);
+
+        if (option == JOptionPane.OK_OPTION) {
+            try {
+                int note = Integer.parseInt(noteField.getText());
+                String commentaire = commentaireField.getText();
+
+                // Vérifier que la note est valide
+                if (note < 1 || note > 5) {
+                    JOptionPane.showMessageDialog(null, "La note doit être entre 1 et 5.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // Donner l'avis
+                Utilisateur auteur = ConnexionScreen.utilisateur_courant;
+                Utils.donnerAvis(mission.getId_mission(), auteur, note, commentaire, VuePrincipale.utilisateurDAO, VuePrincipale.avisDAO, VuePrincipale.missionDAO);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "La note doit être un entier.", "Erreur", JOptionPane.ERROR_MESSAGE);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            updateMissions();
+        }
 
 
-
+    }
 }

@@ -341,6 +341,10 @@ private static void profiterMission(int id_mission) throws SQLException {
                 JOptionPane.INFORMATION_MESSAGE);
         ConnexionScreen.updateMissions();
         VuePrincipale.mainPanel.revalidate();
+
+
+
+        UtilisateurProfilScreen.updateMissions();
     }
     else {
         JOptionPane.showMessageDialog(null,

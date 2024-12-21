@@ -307,6 +307,12 @@ public class Utils {
         return missionDAO.getIdMission(description);
     }
 
+    public static Mission getMissionFromId(int id_mission) throws SQLException{
+        return getMissionFromId(id_mission);
+    }
+
+
+
     public static boolean supprimerMission (String description, MissionDAO missionDAO) throws SQLException {
         int idMission = missionDAO.getIdMission(description);
 

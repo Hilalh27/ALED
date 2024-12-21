@@ -9,7 +9,7 @@ import static org.example.BDDCommunication.DBConnection.getConnection;
 
 //DAO signifie Data Access Object
 public class MissionDAO {
-    private Connection connection;
+    private static Connection connection;
 
     //CONSTRUCTEUR
     public MissionDAO(Connection connection) throws SQLException {
@@ -445,6 +445,24 @@ public class MissionDAO {
         return missions;
     }
 
+    public static Mission getMissionFromId(int id_mission) throws SQLException {
+        String sql = "SELECT id_mission, statut, description, id_demandeur, id_benevole, id_valideur, motif_refus, date_mission " +
+                "FROM missions WHERE id_mission="+id_mission;
+        PreparedStatement statement = connection.prepareStatement(sql);
+        ResultSet resultSet = statement.executeQuery();
+
+        String statut = resultSet.getString("statut");
+        String description = resultSet.getString("description");
+        int idDemandeur = resultSet.getInt("id_demandeur");
+        int id_benevole = resultSet.getInt("id_benevole");
+        int idValideur = resultSet.getInt("id_valideur");
+        String motif_refus = resultSet.getString("motif_refus");
+        java.sql.Date date = resultSet.getDate("date_mission");
+
+        Mission mission = new Mission(id_mission, statut, description, idDemandeur, id_benevole, idValideur, motif_refus, date);
+
+        return mission;
+    }
 
 
 }
