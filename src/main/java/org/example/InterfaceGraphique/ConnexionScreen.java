@@ -1,7 +1,5 @@
 package org.example.InterfaceGraphique;
 
-import org.example.BDDCommunication.UtilisateurDAO;
-import org.example.BDDCommunication.ValideurDAO;
 import org.example.ClassesLocales.Utilisateur;
 import org.example.ClassesLocales.Valideur;
 import org.example.Utils;
@@ -181,16 +179,23 @@ import java.sql.SQLException;
     private static void connexionButton_listener() throws SQLException {
         if (validerConnexion(emailField, passwordField, SelectionScreen.isEstValideur())) {
             // Si la connexion réussit, aller à l'écran utilisateur
-            VuePrincipale.mainPanel.add(UtilisateurScreen.utilisateurScreen, "UtilisateurScreen");
             if(SelectionScreen.isEstValideur()) {
+                VuePrincipale.mainPanel.add(ValideurScreen.valideurScreen, "ValideurScreen");
                 valideur_courant = Utils.recupererValideurConnecte(emailField.getText(), VuePrincipale.valideurDAO);
+                ValideurScreen.welcomeLabel.setText("Bonjour " + valideur_courant.getPrenom() + " " + valideur_courant.getNom() + " !");
+                ValideurScreen.adresseLabel.setText(" Mon adresse : " + valideur_courant.getAdresse());
+
+                updateMissionsValideur();
+                ValideurScreen.initValideurScreen();
+                //VuePrincipale.mainPanel.add(ValideurProfilScreen.valideurProfilScreen, "ValideurProfilScreen");
                 VuePrincipale.allerALaPage("ValideurScreen");
             }
             else{
+                VuePrincipale.mainPanel.add(UtilisateurScreen.utilisateurScreen, "UtilisateurScreen");
                 utilisateur_courant = Utils.recupererUtilisateurConnecte(emailField.getText(), VuePrincipale.utilisateurDAO);
                 UtilisateurScreen.welcomeLabel.setText("Bonjour " + utilisateur_courant.getPrenom() + " !");
                 //UtilisateurScreen.initUtilisateurScreen();
-                updateMissions();
+                updateMissionsUtilisateur();
                 UtilisateurProfilScreen.initUtilisateurProfilScreen();
                 VuePrincipale.mainPanel.add(UtilisateurProfilScreen.utilisateurProfilScreen, "UtilisateurProfilScreen");
                 VuePrincipale.allerALaPage("UtilisateurScreen");
@@ -237,7 +242,7 @@ import java.sql.SQLException;
             userTypeLabel.setText(SelectionScreen.isEstValideur() ? "Compte Valideur" : "Compte Utilisateur");
         }
 
-        public static void updateMissions() throws SQLException {
+        public static void updateMissionsUtilisateur() throws SQLException {
             JPanel missionsAccomplirPanel = UtilisateurScreen.AfficherMissionAccomplir(
                     "Missions que je peux accomplir",
                     Utils.avoirToutesMissionsValidees(VuePrincipale.missionDAO)
@@ -253,5 +258,21 @@ import java.sql.SQLException;
             UtilisateurScreen.panelMissions.add(missionsAccomplirPanel); // Le premier tableau
             UtilisateurScreen.panelMissions.add(missionsSpontanneesPanel); // Le deuxième tableau
             UtilisateurScreen.panelMissions.setOpaque(false);
+        }
+
+        public static void updateMissionsValideur() throws SQLException {
+            JPanel missionsValiderPanel = ValideurScreen.AfficherMissionValider(
+                    "Missions à valider",
+                    Utils.avoirToutesMissionsEnAttente(VuePrincipale.missionDAO)
+            );
+
+            System.out.println(Utils.avoirToutesMissionsEnAttente(VuePrincipale.missionDAO));
+
+            ValideurScreen.panelMissions.removeAll();
+            ValideurScreen.panelMissions.add(missionsValiderPanel); // Le tableau des missions à valider
+            ValideurScreen.panelMissions.setOpaque(false);
+            ValideurScreen.panelMissions.revalidate();
+            ValideurScreen.panelMissions.repaint(); // Ajout explicite pour actualiser le rendu graphique
+            VuePrincipale.mainPanel.revalidate();
         }
 }

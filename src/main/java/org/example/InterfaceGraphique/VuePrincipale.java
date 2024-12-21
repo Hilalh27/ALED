@@ -101,6 +101,7 @@ public class VuePrincipale  extends JFrame {
         ConnexionScreen.initConnexionScreen();
         CreationCompteScreen.initCreationCompteScreen();
         UtilisateurScreen.initUtilisateurScreen();
+        ValideurScreen.initValideurScreen();
         CreationMissionSpontaneeScreen.initCreerMissionSpontanneeScreen();
         DemandeMissionScreen.initDemandeMissionScreen();
 
@@ -109,6 +110,7 @@ public class VuePrincipale  extends JFrame {
         mainPanel.add(ConnexionScreen.connexionScreen, "ConnexionScreen");
         mainPanel.add(CreationCompteScreen.creationCompteScreen, "CreationCompteScreen");
         mainPanel.add(UtilisateurScreen.utilisateurScreen, "UtilisateurScreen");
+        mainPanel.add(ValideurScreen.valideurScreen, "ValideurScreen");
         mainPanel.add(CreationMissionSpontaneeScreen.creationMissionSpontaneeScreen, "CreationMissionSpontaneeScreen");
         mainPanel.add(DemandeMissionScreen.demandeMissionScreen, "DemandeMissionScreen");
 

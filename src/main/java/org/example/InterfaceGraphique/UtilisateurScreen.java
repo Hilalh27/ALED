@@ -210,7 +210,13 @@ public class UtilisateurScreen extends JFrame {
                 JButton aiderButton = new JButton("Aider !");
                 aiderButton.setFocusable(false);
                 aiderButton.setFont(new Font("Arial", Font.BOLD, 12));
-                aiderButton.addActionListener(e -> System.out.println("Mission ID : " + mission.getId_mission()));
+                aiderButton.addActionListener(e -> {
+                    try {
+                        aiderMission(mission.getId_mission());
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                });
                 aiderButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
                 // Ajouter les composants dans la carte
@@ -339,11 +345,8 @@ private static void profiterMission(int id_mission) throws SQLException {
                 "La mission a été acceptée avec succès !",
                 "Confirmation",
                 JOptionPane.INFORMATION_MESSAGE);
-        ConnexionScreen.updateMissions();
+        ConnexionScreen.updateMissionsUtilisateur();
         VuePrincipale.mainPanel.revalidate();
-
-
-
         UtilisateurProfilScreen.updateMissions();
     }
     else {
@@ -361,7 +364,7 @@ private static void profiterMission(int id_mission) throws SQLException {
                     "La mission a été acceptée avec succès !",
                     "Confirmation",
                     JOptionPane.INFORMATION_MESSAGE);
-            ConnexionScreen.updateMissions();
+            ConnexionScreen.updateMissionsUtilisateur();
             VuePrincipale.mainPanel.revalidate();
         }
         else {

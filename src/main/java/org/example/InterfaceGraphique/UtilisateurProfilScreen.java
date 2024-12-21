@@ -302,57 +302,6 @@ public class UtilisateurProfilScreen extends JFrame {
                     infoPanel.add(leaveReviewButton);
                 }
 
-                // Si réalisée, donner un avis et afficher les avis existants
-                if ("réalisée".equalsIgnoreCase(mission.getStatut())) {
-                    // Ajouter le bouton "Laisser un avis !" pour les missions réalisées
-                    JButton leaveReviewButton = new JButton("Laisser un avis !");
-                    leaveReviewButton.setFont(new Font("Arial", Font.BOLD, 12));
-                    leaveReviewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
-                    // Action lors du clic sur le bouton
-                    leaveReviewButton.addActionListener(e -> {
-                        // Afficher une fenêtre pour saisir un avis
-                        try {
-                            showAvisDialog(mission);
-                        } catch (SQLException ex) {
-                            throw new RuntimeException(ex);
-                        }
-
-                        try {
-                            updateMissions();
-                        } catch (SQLException ex) {
-                            throw new RuntimeException(ex);
-                        }
-                    });
-                    infoPanel.add(leaveReviewButton);
-
-                    // Récupérer et afficher les avis existants
-                    try {
-                        List<Avis> avisList = Utils.recupererLesAvisMission(mission.getId_mission(), VuePrincipale.avisDAO);
-                        for (Avis avis : avisList) {
-                            JPanel avisPanel = new JPanel();
-                            avisPanel.setLayout(new BoxLayout(avisPanel, BoxLayout.Y_AXIS));
-                            avisPanel.setOpaque(false);
-
-                            // Ajouter la note et le commentaire
-                            JLabel noteLabel = new JLabel("Note : " + avis.getNote() + "/5");
-                            JLabel commentaireLabel = new JLabel("<html><i>" + avis.getCommentaire() + "</i></html>");
-
-                            // Afficher le nom de l'auteur de l'avis
-                            String auteur = Utils.getUserPrenom(avis.getId_utilisateur_auteur());
-                            JLabel auteurLabel = new JLabel("Par : " + auteur);
-
-                            avisPanel.add(auteurLabel);
-                            avisPanel.add(noteLabel);
-                            avisPanel.add(commentaireLabel);
-                            missionsPanel.add(avisPanel);
-                            missionsPanel.add(Box.createVerticalStrut(2)); // Espacement réduit entre les avis
-                        }
-                    } catch (SQLException ex) {
-                    }
-                }
-
-
                 // Ajouter les composants dans la carte
                 missionCard.add(infoPanel, BorderLayout.CENTER);
 
@@ -468,6 +417,13 @@ public class UtilisateurProfilScreen extends JFrame {
                         VuePrincipale.mainPanel.revalidate();
                     });
                     infoPanel.add(finishMission);
+                }
+
+                if ("refusée".equalsIgnoreCase(mission.getStatut()) && mission.getMotif_refus() != null && !mission.getMotif_refus().isEmpty()) {
+                    JLabel motifLabel = new JLabel("<html><i>Motif : " + mission.getMotif_refus() + "</i></html>");
+                    motifLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+                    motifLabel.setForeground(Color.DARK_GRAY);
+                    infoPanel.add(motifLabel);
                 }
 
                 // Si réalisée, donner un avis
