@@ -88,13 +88,7 @@ import java.sql.SQLException;
             JButton connexionButton = Utils.creerBouton("Se connecter");
             connexionButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-            connexionButton.addActionListener(e -> {
-                try {
-                    connexionButton_listener();
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-            });
+            connexionButton.addActionListener(e -> connexionButton_listener());
 
             // Connect with Apple :p
 /*            ImageIcon appleImage = new ImageIcon("src/main/resources/connect_Apple.png");
@@ -176,36 +170,68 @@ import java.sql.SQLException;
         }
 
 
-    private static void connexionButton_listener() throws SQLException {
-        if (validerConnexion(emailField, passwordField, SelectionScreen.isEstValideur())) {
-            // Si la connexion réussit, aller à l'écran utilisateur
-            if(SelectionScreen.isEstValideur()) {
-                VuePrincipale.mainPanel.add(ValideurScreen.valideurScreen, "ValideurScreen");
-                valideur_courant = Utils.recupererValideurConnecte(emailField.getText(), VuePrincipale.valideurDAO);
-                ValideurScreen.welcomeLabel.setText("Bonjour " + valideur_courant.getPrenom() + " " + valideur_courant.getNom() + " !");
-                ValideurScreen.adresseLabel.setText(" Mon adresse : " + valideur_courant.getAdresse());
+        private static void connexionButton_listener() {
+            JDialog loadingDialog = new JDialog((Frame) null, "Connexion en cours...", true);
+            loadingDialog.setSize(450, 80);
+            JLabel messageLabel = new JLabel("La patience est amère, mais son fruit est doux... 🍯", SwingConstants.CENTER);
+            messageLabel.setFont(new Font("Arial", Font.BOLD, 14));
+            loadingDialog.add(messageLabel);
+            loadingDialog.setLocationRelativeTo(null);
+            loadingDialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 
-                updateMissionsValideur();
-                ValideurScreen.initValideurScreen();
-                //VuePrincipale.mainPanel.add(ValideurProfilScreen.valideurProfilScreen, "ValideurProfilScreen");
-                VuePrincipale.allerALaPage("ValideurScreen");
-            }
-            else{
-                VuePrincipale.mainPanel.add(UtilisateurScreen.utilisateurScreen, "UtilisateurScreen");
-                utilisateur_courant = Utils.recupererUtilisateurConnecte(emailField.getText(), VuePrincipale.utilisateurDAO);
-                UtilisateurScreen.welcomeLabel.setText("Bonjour " + utilisateur_courant.getPrenom() + " !");
-                //UtilisateurScreen.initUtilisateurScreen();
-                updateMissionsUtilisateur();
-                UtilisateurProfilScreen.initUtilisateurProfilScreen();
-                VuePrincipale.mainPanel.add(UtilisateurProfilScreen.utilisateurProfilScreen, "UtilisateurProfilScreen");
-                VuePrincipale.allerALaPage("UtilisateurScreen");
-            }
-        } else {
-            // Si la connexion échoue, afficher un message d'erreur
-            JOptionPane.showMessageDialog(connexionScreen, "Connexion échouée. Vérifiez vos identifiants.",
-                    "Erreur de connexion", JOptionPane.ERROR_MESSAGE);
+            // SwingWorker pour gérer la connexion en arrière-plan
+            SwingWorker<Void, Void> worker = new SwingWorker<>() {
+                @Override
+                protected Void doInBackground() throws Exception {
+                    // Simulation d'un délai (remplacez par votre logique de connexion)
+                    if (validerConnexion(emailField, passwordField, SelectionScreen.isEstValideur())) {
+                        if (SelectionScreen.isEstValideur()) {
+                            VuePrincipale.mainPanel.add(ValideurScreen.valideurScreen, "ValideurScreen");
+                            valideur_courant = Utils.recupererValideurConnecte(emailField.getText(), VuePrincipale.valideurDAO);
+                            ValideurScreen.welcomeLabel.setText("Bonjour " + valideur_courant.getPrenom() + " " + valideur_courant.getNom() + " !");
+                            ValideurScreen.adresseLabel.setText("Mon adresse : " + valideur_courant.getAdresse());
+
+                            updateMissionsValideur();
+                            ValideurScreen.initValideurScreen();
+                        } else {
+                            VuePrincipale.mainPanel.add(UtilisateurScreen.utilisateurScreen, "UtilisateurScreen");
+                            utilisateur_courant = Utils.recupererUtilisateurConnecte(emailField.getText(), VuePrincipale.utilisateurDAO);
+                            UtilisateurScreen.welcomeLabel.setText("Bonjour " + utilisateur_courant.getPrenom() + " !");
+                            updateMissionsUtilisateur();
+                            UtilisateurProfilScreen.initUtilisateurProfilScreen();
+                            VuePrincipale.mainPanel.add(UtilisateurProfilScreen.utilisateurProfilScreen, "UtilisateurProfilScreen");
+                        }
+                    } else {
+                        // Simulation d'échec
+                        throw new Exception("Connexion échouée");
+                    }
+                    return null;
+                }
+
+                @Override
+                protected void done() {
+                    loadingDialog.dispose(); // Fermer la boîte de dialogue
+                    try {
+                        get(); // Vérifie si une exception a été lancée
+                        if (SelectionScreen.isEstValideur()) {
+                            VuePrincipale.allerALaPage("ValideurScreen");
+                        } else {
+                            VuePrincipale.allerALaPage("UtilisateurScreen");
+                        }
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(connexionScreen,
+                                "Connexion échouée. Vérifiez vos identifiants.",
+                                "Erreur de connexion",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            };
+
+            // Montrer la boîte de dialogue et démarrer le traitement
+            SwingUtilities.invokeLater(() -> loadingDialog.setVisible(true));
+            worker.execute();
         }
-    }
+
     private static boolean validerConnexion(JTextField emailField, JPasswordField passwordField, boolean estValideur) {
         try {
             // Récupérer les valeurs des champs de texte
