@@ -393,7 +393,7 @@ public class UtilisateurProfilScreen extends JFrame {
 
                 // Si acceptée, ajouter les coordonnées du bénévole et possibilité de finir mission
                 if ("acceptée".equalsIgnoreCase(mission.getStatut())) {
-                    JLabel acceptLabel = new JLabel("<html><i>" + Utils.getUserAdresse(mission.getId_demandeur()).toUpperCase() + " - " + Utils.getUserMail(mission.getId_demandeur()).toUpperCase() + "</i></html>");
+                    JLabel acceptLabel = new JLabel("<html><i>" + Utils.getUserAdresse(mission.getId_benevole()).toUpperCase() + " - " + Utils.getUserMail(mission.getId_benevole()).toUpperCase() + "</i></html>");
                     acceptLabel.setFont(new Font("Arial", Font.PLAIN, 12));
                     acceptLabel.setForeground(Color.DARK_GRAY);
                     infoPanel.add(acceptLabel);
