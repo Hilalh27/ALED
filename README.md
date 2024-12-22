@@ -1,29 +1,20 @@
-# **Application de Gestion de Missions**
+# **Projet Application Bénévolat : ALED **
 
-## **Créateurs**
+## **Contexte**
 
-Ce projet a été réalisé dans le cadre du cours Processus de développement logiciel automatisé et Conduite de projet.
+Ce projet a été réalisé par Noé Caillet et Célian Hilal Hamdan dans le cadre du cours Processus de développement logiciel automatisé et Conduite de projet.
 
 ---
 
 ## **Description**
 
-L'application est un outil Java conçu pour faciliter la mise en relation entre **bénévoles** et **demandeurs** autour de missions communautaires. Grâce à une interface intuitive, elle permet aux utilisateurs de créer, valider et gérer des missions tout en garantissant un environnement sécurisé et organisé. Le projet utilise **Swing** pour l'interface graphique, **Maven** pour la gestion des dépendances et **JUnit** pour les tests.
+Ce projet met en application des techniques de conduite de projet via la méthode Agile en utilisant l’outil Jira, pour la conception et l’implémentation d’une application de **bénévolat** entre **particuliers**. Il utilise **Swing** pour l'interface graphique, **Maven** pour la gestion des dépendances, et met en place l’intégration continue notamment via une automatisation de tests de validité en utilisant **JUnit** et l’outil **GitHub Actions**.
 
 ---
 
 ## **Fonctionnalités**
 
-### Rôles des utilisateurs
-- **Utilisateur** :
-  - Peut demander ou proposer des missions.
-  - Accède aux coordonnées des participants à une mission validée.
-- **Valideur** :
-  - Régule les missions en les validant ou refusant avec un motif.
-  - Dispose d'un écran dédié pour cette gestion.
-
-### Fonctionnalités principales
-- Création et connexion à des comptes sécurisés.
+- Création et connexion de comptes sécurisés.
 - Gestion des missions :
   - Proposition ou demande de missions.
   - Validation des missions avant leur mise à disposition.
@@ -55,9 +46,9 @@ ApplicationGestionMissions/
 
 ---
 
-## **Technologies**
+## **Outils utilisés**
 
-- **Java** : Langage principal.
+- **Java** : Langage de programmation.
 - **Swing** : Construction de l'interface utilisateur.
 - **Maven** : Gestion des dépendances.
 - **JUnit** : Framework de tests unitaires.
@@ -69,16 +60,24 @@ ApplicationGestionMissions/
 - **Java JDK 11** ou supérieur.
 - **Maven 3.6+**.
 - Un IDE supporté tel qu’IntelliJ IDEA, Eclipse ou NetBeans.
-- Connexion au **VPN de l'INSA** pour utiliser l'application.
+- Connexion au **réseau** ou au **VPN de l'INSA** pour utiliser l'application.
 
 ---
 
 ## **Installation**
 
-1. Clonez le dépôt :
+1. Cloner le dépôt :
    ```bash
-   git clone <URL_du_dépôt>
+   git clone https://github.com/Hilalh27/ALED
    cd ApplicationGestionMissions
+
+2. Build le projet en utilisant Maven :
+   ```bash
+   mvn clean install
+
+3. Build le projet en utilisant Maven :
+   ```bash
+   java -jar target/ProjectMaven-0.0.1-SNAPSHOT.jar
 
 ---
 
@@ -87,8 +86,8 @@ ApplicationGestionMissions/
 - **Connexion/Inscription** :
   - Créez un compte ou connectez-vous avec un compte utilisateur ou valideur.
   - Exemples de comptes :
-    - **Utilisateur** : mathisdubien@unilim.fr / abcd1
-    - **Valideur** : galinabox@lid.fr / abcd1
+    - **Utilisateur** : mathisdubien@unilim.fr / mot de passe : abcd1
+    - **Valideur** : galinabox@lid.fr / mot de passe : abcd1
 
 - **Proposer ou demander une mission** :
   - Ajoutez une mission via l'écran dédié.
