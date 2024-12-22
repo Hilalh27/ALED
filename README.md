@@ -93,26 +93,25 @@ ALED/
 
 ![Écran de connexion](GUI_screenshots/connexion.png "Connexion")
 
-- **Proposer ou demander une mission** :
+- **Proposer ou demander une mission** (Utilisateur) :
   - Ajoutez une mission via l'écran dédié.
 ![Écran de demande de mission](GUI_screenshots/demander_mission.png "Demande mission")
 
-- **Valider ou refuser des missions** (Valideur uniquement) :
+- **Valider ou refuser des missions** (Valideur) :
   - Fournissez un motif en cas de refus.
 ![Écran d'accueil valideur](GUI_screenshots/accueil_v.png "Accueil valideur")
 
-- **Accéder aux missions disponibles** :
+- **Accéder aux missions disponibles** (Utilisateur) :
   - Affichez les missions partagées par la communauté.
 ![Écran d'accueil utilisateur](GUI_screenshots/accueil_u.png "Accueil utilisateur")
 
-- **Suivre vos missions** :
-  - Consultez vos missions personnelles dans l'écran "Mon profil".
+- **Suivre vos missions** (Utilisateur) :
+  - Consultez vos missions personnelles dans l'écran `Mon profil`.
   - Signalez la fin d’une mission accomplie.
 ![Profil utilisateur](GUI_screenshots/profil_u.png "Profil")
 
 - **Publier un avis** :
   - Ajoutez un avis après l'achèvement d'une mission.
-
 ---
 
 ## **Tests**
