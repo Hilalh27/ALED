@@ -308,7 +308,7 @@ public class Utils {
     }
 
     public static Mission getMissionFromId(int id_mission) throws SQLException{
-        return getMissionFromId(id_mission);
+        return MissionDAO.getMissionFromId(id_mission);
     }
 
 

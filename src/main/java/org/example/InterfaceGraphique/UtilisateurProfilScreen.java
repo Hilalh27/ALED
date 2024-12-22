@@ -287,7 +287,8 @@ public class UtilisateurProfilScreen extends JFrame {
                     leaveReviewButton.addActionListener(e -> {
                         // Afficher l'ID de la mission dans les logs
                         try {
-                            showAvisDialog(Utils.getMissionFromId(mission.getId_mission()));
+                            showAvisDialog(mission);
+                            //showAvisDialog(Utils.getMissionFromId(mission.getId_mission()));
                         } catch (SQLException ex) {
                             throw new RuntimeException(ex);
                         }
