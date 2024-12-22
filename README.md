@@ -2,7 +2,7 @@
 
 ## **Créateurs**
 
-Ce projet a été réalisé dans le cadre de [mention du contexte ou du cours, si disponible].
+Ce projet a été réalisé dans le cadre du cours Processus de développement logiciel automatisé et Conduite de projet.
 
 ---
 
@@ -80,6 +80,8 @@ ApplicationGestionMissions/
    git clone <URL_du_dépôt>
    cd ApplicationGestionMissions
 
+---
+
 ## **Utilisation**
 
 - **Connexion/Inscription** :
@@ -103,6 +105,8 @@ ApplicationGestionMissions/
 
 - **Publier un avis** :
   - Ajoutez un avis après l'achèvement d'une mission.
+
+---
 
 ## **Tests**
 
