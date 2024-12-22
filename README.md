@@ -28,6 +28,7 @@ Ce projet met en application des techniques de conduite de projet via la méthod
 
 ## **Structure du Projet**
 
+```
 ALED/
 ├── src/
 │   ├── main/
@@ -43,6 +44,7 @@ ALED/
 ├── .gitignore                        # Fichiers à exclure du contrôle de version
 ├── pom.xml                           # Fichier de configuration Maven
 
+```
 
 ---
 
