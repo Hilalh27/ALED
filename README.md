@@ -91,18 +91,24 @@ ALED/
     - **Utilisateur** : adresse email : `mathisdubien@unilim.fr` -  mot de passe : `abcd1`
     - **Valideur** : adresse email : `galinabox@lid.fr` -  mot de passe : `abcd1`
 
+![Écran de connexion](GUI_screenshots/connexion.png "Connexion")
+
 - **Proposer ou demander une mission** :
   - Ajoutez une mission via l'écran dédié.
+![Écran de demande de mission](GUI_screenshots/demander_mission.png "Demande mission")
 
 - **Valider ou refuser des missions** (Valideur uniquement) :
   - Fournissez un motif en cas de refus.
+![Écran d'accueil valideur](GUI_screenshots/accueil_v.png "Accueil valideur")
 
 - **Accéder aux missions disponibles** :
   - Affichez les missions partagées par la communauté.
+![Écran d'accueil utilisateur](GUI_screenshots/accueil_u.png "Accueil utilisateur")
 
 - **Suivre vos missions** :
   - Consultez vos missions personnelles dans l'écran "Mon profil".
   - Signalez la fin d’une mission accomplie.
+![Profil utilisateur](GUI_screenshots/profil_u.png "Profil")
 
 - **Publier un avis** :
   - Ajoutez un avis après l'achèvement d'une mission.
