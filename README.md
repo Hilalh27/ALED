@@ -2,7 +2,7 @@
 
 ## **Contexte**
 
-Ce projet a été réalisé par Noé Caillet et Célian Hilal Hamdan dans le cadre du cours Processus de développement logiciel automatisé et Conduite de projet.
+Le projet ALED (Avoir L’aide Et Demander) a été réalisé par Noé Caillet et Célian Hilal Hamdan dans le cadre du cours Processus de développement logiciel automatisé et Conduite de projet.
 
 ---
 
@@ -88,8 +88,8 @@ ALED/
 - **Connexion/Inscription** :
   - Créez un compte ou connectez-vous avec un compte utilisateur ou valideur.
   - Exemples de comptes :
-    - **Utilisateur** : mathisdubien@unilim.fr / mot de passe : abcd1
-    - **Valideur** : galinabox@lid.fr / mot de passe : abcd1
+    - **Utilisateur** : adresse email : `mathisdubien@unilim.fr` -  mot de passe : `abcd1`
+    - **Valideur** : adresse email : `galinabox@lid.fr` -  mot de passe : `abcd1`
 
 - **Proposer ou demander une mission** :
   - Ajoutez une mission via l'écran dédié.
