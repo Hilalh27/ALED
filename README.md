@@ -1,4 +1,4 @@
-# **Projet Application Bénévolat : ALED **
+# Projet Application Bénévolat : ALED
 
 ## **Contexte**
 
@@ -28,7 +28,7 @@ Ce projet met en application des techniques de conduite de projet via la méthod
 
 ## **Structure du Projet**
 
-ApplicationGestionMissions/
+ALED/
 ├── src/
 │   ├── main/
 │   │   ├── java/org/example/
@@ -69,15 +69,15 @@ ApplicationGestionMissions/
 1. Cloner le dépôt :
    ```bash
    git clone https://github.com/Hilalh27/ALED
-   cd ApplicationGestionMissions
+   cd ALED
 
-2. Build le projet en utilisant Maven :
+2. Générer (build) le projet en utilisant Maven :
    ```bash
    mvn clean install
 
-3. Build le projet en utilisant Maven :
+3. Exécuter l'application :
    ```bash
-   java -jar target/ProjectMaven-0.0.1-SNAPSHOT.jar
+   java -jar target/ALED-1.0-SNAPSHOT.jar
 
 ---
 
