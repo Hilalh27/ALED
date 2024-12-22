@@ -4,13 +4,10 @@ import org.example.BDDCommunication.AvisDAO;
 import org.example.BDDCommunication.MissionDAO;
 import org.example.BDDCommunication.UtilisateurDAO;
 import org.example.BDDCommunication.ValideurDAO;
-import org.example.ClassesLocales.Utilisateur;
-import org.example.Utils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 

@@ -5,7 +5,6 @@ import org.example.ClassesLocales.*;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
-import java.util.Objects;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

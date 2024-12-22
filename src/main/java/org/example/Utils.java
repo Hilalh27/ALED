@@ -11,7 +11,6 @@ import org.example.ClassesLocales.Valideur;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;

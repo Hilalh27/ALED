@@ -1,7 +1,6 @@
 package org.example.InterfaceGraphique;
 
 import org.example.ClassesLocales.Mission;
-import org.example.ClassesLocales.Valideur;
 import org.example.Utils;
 
 import javax.imageio.ImageIO;
